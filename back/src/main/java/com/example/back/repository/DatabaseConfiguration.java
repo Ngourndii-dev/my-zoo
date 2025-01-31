@@ -24,9 +24,7 @@ public class  DatabaseConfiguration {
         return DriverManager.getConnection(this.dbUrl, this.dbUsername, this.dbPassword);
     }
 
-    public static void main(String[] args) {
 
-    }
 
 }
 

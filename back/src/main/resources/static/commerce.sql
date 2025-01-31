@@ -1,18 +1,17 @@
--- Création de la base de données
 CREATE DATABASE my_zoo;
 
--- Connexion à la base de données
 \c my_zoo;
---create all table
+
 CREATE TABLE animal_template(
-  id int serial primary key,
+  id serial primary key,
   name varchar (100) not null unique,
   species varchar(100) not null
 );
+
 CREATE TABLE animal (
-  id int serial primary key,
-  id_template int references animal_template(id),
-  sex VARCHAR(50) CHECK (status IN ('male', 'female')),
+  id serial primary key,
+  id_animal_template int references animal_template(id),
+  sex VARCHAR(50) CHECK (sex IN ('male', 'female')),  -- Correction ici
   origin varchar(50) not null,
   price float,
   rent float,
@@ -21,7 +20,7 @@ CREATE TABLE animal (
 );
 
 CREATE TABLE event (
-  id int serial primary key,
+  id serial primary key,
   id_animal int references animal(id),
   image varchar(20) not null,
   situation_date date not null
@@ -30,10 +29,10 @@ CREATE TABLE event (
 CREATE TABLE review (
     id SERIAL PRIMARY KEY,
     author VARCHAR(50) NOT NULL,
-    id_animal INT REFERENCES animal(id)
+    id_animal INT REFERENCES animal(id),
     rating INT CHECK (rating BETWEEN 1 AND 5),
     comment VARCHAR(100),
-    status VARCHAR(50) CHECK (status IN ('append', 'available', 'unavailable'))
+    status VARCHAR(50) CHECK (status IN ('pending', 'available', 'unavailable'))
 );
 
 CREATE TABLE client (
@@ -53,40 +52,9 @@ CREATE TABLE orders (
 );
 
 CREATE TABLE operation(
-  id int serial primary key,
+  id serial primary key,
   price FLOAT NOT NULL CHECK (price >= 0),
   id_animal int references animal(id),
   operation_date date,
   operation_type varchar(50) not null
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

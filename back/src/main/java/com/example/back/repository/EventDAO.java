@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -71,13 +72,13 @@ public class EventDAO {
         return event;
     }
 
-    public Event updateSituationDate(int id, java.sql.Date date) {
+    public Event updateSituationDate(int id, Date date) {
         Event event = getById(id);
         if (event != null) {
             try {
                 String query = "UPDATE event SET situation_date = ? WHERE id = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
-                statement.setDate(1, date);
+                statement.setDate(1, (java.sql.Date) date);
                 statement.setInt(2, id);
                 statement.executeUpdate();
 
