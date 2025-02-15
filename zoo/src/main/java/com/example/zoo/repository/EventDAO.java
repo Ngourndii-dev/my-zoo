@@ -1,20 +1,22 @@
-package com.example.back.repository;
-import com.example.back.model.Event;
+package com.example.zoo.repository;
+import com.example.zoo.model.Event;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
-
+ 
 
 @Repository
 @AllArgsConstructor
 
 public class EventDAO {
+    @Autowired
     private Connection connection;
     private AnimalDAO animalDAO;
     public Event insert(Event event){

@@ -1,4 +1,4 @@
-package com.example.back.model;
+package com.example.zoo.model;
 
 import lombok.*;
 
@@ -13,5 +13,5 @@ public class Review {
     private int rating;
     private String comment;
     private String status;
-
+    public Review(){}
 }

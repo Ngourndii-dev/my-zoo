@@ -1,4 +1,4 @@
-package com.example.back.model;
+package com.example.zoo.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,4 +11,5 @@ public class Client {
     private String clientName;
     private String phoneNumber;
     private String email;
+    public Client(){}
 }

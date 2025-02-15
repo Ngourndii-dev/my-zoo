@@ -1,7 +1,7 @@
-package com.example.back.controller;
+package com.example.zoo.controller;
 
-import com.example.back.model.Animal;
-import com.example.back.service.AnimalService;
+import com.example.zoo.model.*;
+import com.example.zoo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/animals")
 public class AnimalController {
-
     @Autowired
     private AnimalService animalService;
 

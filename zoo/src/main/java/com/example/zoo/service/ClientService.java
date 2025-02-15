@@ -1,7 +1,7 @@
-package com.example.back.service;
+package com.example.zoo.service;
 
-import com.example.back.model.Client;
-import com.example.back.repository.ClientDAO;
+import com.example.zoo.model.Client;
+import com.example.zoo.repository.ClientDAO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

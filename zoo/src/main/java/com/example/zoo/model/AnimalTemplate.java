@@ -1,7 +1,6 @@
-package com.example.back.model;
+package com.example.zoo.model;
 
 import lombok.*;
-
 @AllArgsConstructor
 @Getter
 @Setter
@@ -10,4 +9,5 @@ public class AnimalTemplate {
     private int id;
     private String name;
     private String species;
+    public AnimalTemplate(){}
 }

@@ -1,8 +1,6 @@
-package com.example.back.model;
+package com.example.zoo.model;
 import lombok.*;
-import com.example.back.model.Animal;
-import java.util.Date;
-
+import java.sql.Date;
 @AllArgsConstructor
 @Getter
 @Setter
@@ -14,5 +12,7 @@ public class Orders {
     private int quantity;
     private Client client;
     private  Animal animal;
+    public Orders(){
 
+    }
 }

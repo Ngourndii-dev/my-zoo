@@ -11,7 +11,7 @@ CREATE TABLE animal_template(
 CREATE TABLE animal (
   id serial primary key,
   id_animal_template int references animal_template(id),
-  sex VARCHAR(50) CHECK (sex IN ('male', 'female')),  -- Correction ici
+  sex VARCHAR(50) CHECK (sex IN ('male', 'female')),
   origin varchar(50) not null,
   price float,
   rent float,

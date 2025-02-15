@@ -1,8 +1,8 @@
-package com.example.back.repository;
+package com.example.zoo.repository;
 
-import com.example.back.model.Animal;
-import com.example.back.model.Review;
+import com.example.zoo.model.*;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,9 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-@Repository
+@Repository 
 @AllArgsConstructor
 public class ReviewDAO {
+    @Autowired
     private Connection connection;
 
     private AnimalDAO animalDAO;
@@ -39,10 +40,12 @@ public class ReviewDAO {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
+                int animalId=rs.getInt("id_animal");
+                Animal animal=animalDAO.getById(animalId);
                 Review review = new Review(
                         rs.getInt("id"),
                         rs.getString("author"),
-                        rs.getObject("animal",Animal.class),
+                        animal,
                         rs.getInt("rating"),
                         rs.getString("comment"),
                         rs.getString("status")

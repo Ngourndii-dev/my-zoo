@@ -1,7 +1,6 @@
-package com.example.back.model;
+package com.example.zoo.model;
 
 import lombok.*;
-
 @AllArgsConstructor
 @Getter
 @Setter
@@ -15,5 +14,5 @@ public class Animal {
     private float rent;
     private String status;
     private String color;
-
+public Animal(){}
 }

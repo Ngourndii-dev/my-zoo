@@ -1,7 +1,7 @@
-package com.example.back.service;
+package com.example.zoo.service;
 
-import com.example.back.model.Animal;
-import com.example.back.repository.AnimalDAO;
+import com.example.zoo.model.*;
+import com.example.zoo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

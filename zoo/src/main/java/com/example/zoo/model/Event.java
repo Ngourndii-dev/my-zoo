@@ -1,9 +1,7 @@
-package com.example.back.model;
-import com.example.back.model.Animal;
+package com.example.zoo.model;
 import lombok.*;
 
-import java.util.Date;
-
+import java.sql.Date;
 @AllArgsConstructor
 @Getter
 @Setter
@@ -13,5 +11,7 @@ public class Event {
     private Animal animal;
     private String image;
     private Date situationDate;
+public Event(){
 
+}
 }

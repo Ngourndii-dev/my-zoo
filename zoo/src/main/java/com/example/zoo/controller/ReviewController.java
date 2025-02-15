@@ -1,7 +1,7 @@
-package com.example.back.controller;
+package com.example.zoo.controller;
 
-import com.example.back.model.Review;
-import com.example.back.service.ReviewService;
+import com.example.zoo.model.Review;
+import com.example.zoo.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

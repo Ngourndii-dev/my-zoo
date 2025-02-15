@@ -1,6 +1,6 @@
-package com.example.back.model;
+package com.example.zoo.model;
 
-import java.util.Date;
+import java.sql.Date;
 import lombok.*;
 
 @AllArgsConstructor
@@ -13,4 +13,7 @@ public class Operation {
     private Animal animal;
     private Date operationDate;
     private String operationType;
+    public Operation(){
+
+    }
 }
