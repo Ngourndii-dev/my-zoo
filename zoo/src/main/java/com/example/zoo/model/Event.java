@@ -14,4 +14,10 @@ public class Event {
 public Event(){
 
 }
+
+    public Event(Animal animal, String image, Date situationDate) {
+        this.animal = animal;
+        this.image = image;
+        this.situationDate = situationDate;
+    }
 }

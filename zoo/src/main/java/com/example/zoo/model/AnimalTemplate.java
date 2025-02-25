@@ -10,4 +10,9 @@ public class AnimalTemplate {
     private String name;
     private String species;
     public AnimalTemplate(){}
+
+    public AnimalTemplate(String name, String species) {
+        this.name = name;
+        this.species = species;
+    }
 }

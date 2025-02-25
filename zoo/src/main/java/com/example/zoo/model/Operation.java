@@ -16,4 +16,10 @@ public class Operation {
     public Operation(){
 
     }
+    public Operation(float price, Animal animal, Date operationDate, String operationType) {
+        this.price = price;
+        this.animal = animal;
+        this.operationDate = operationDate;
+        this.operationType = operationType;
+    }
 }

@@ -1,8 +1,11 @@
 package com.example.zoo.service;
 
-import com.example.zoo.model.*;
-import com.example.zoo.repository.*;
+import com.example.zoo.model.Animal;
+import com.example.zoo.model.Review;
+import com.example.zoo.repository.AnimalDAO;
+import com.example.zoo.repository.ReviewDAO;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +13,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ReviewService {
-    private ReviewDAO reviewDAO;
+    @Autowired
+    private final ReviewDAO reviewDAO;
 
     public Review insert(Review review) {
         return reviewDAO.insert(review);
@@ -19,8 +23,9 @@ public class ReviewService {
     public List<Review> findAll() {
         return reviewDAO.findAll();
     }
-
     public Review getById(int id) {
         return reviewDAO.getById(id);
     }
+
+
 }

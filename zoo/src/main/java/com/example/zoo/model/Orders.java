@@ -15,4 +15,12 @@ public class Orders {
     public Orders(){
 
     }
+
+    public Orders(Date orderDate, String status, int quantity, Client client, Animal animal) {
+        this.orderDate = orderDate;
+        this.status = status;
+        this.quantity = quantity;
+        this.client = client;
+        this.animal = animal;
+    }
 }

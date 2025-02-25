@@ -10,13 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-@Repository 
+
+@Repository
 @AllArgsConstructor
 public class ReviewDAO {
     @Autowired
     private Connection connection;
 
     private AnimalDAO animalDAO;
+
     public Review insert(Review review) {
         try {
             String query = "INSERT INTO review (author, id_animal, rating, comment, status) VALUES (?, ?, ?, ?, ?)";
@@ -40,8 +42,8 @@ public class ReviewDAO {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                int animalId=rs.getInt("id_animal");
-                Animal animal=animalDAO.getById(animalId);
+                int animalId = rs.getInt("id_animal");
+                Animal animal = animalDAO.getById(animalId);
                 Review review = new Review(
                         rs.getInt("id"),
                         rs.getString("author"),
@@ -58,16 +60,6 @@ public class ReviewDAO {
         return reviewList;
     }
 
-    public void delete(int id) {
-        try {
-            String query = "DELETE FROM review WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     public Review getById(int id) {
         Review review = null;
         try {
@@ -77,7 +69,7 @@ public class ReviewDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                review=new Review();
+                review = new Review();
                 review.setId(resultSet.getInt("id"));
                 review.setAuthor(resultSet.getString("author"));
                 review.setAnimal(animalDAO.getById(resultSet.getInt("id_animal")));
@@ -90,5 +82,5 @@ public class ReviewDAO {
         }
         return review;
     }
-}
 
+}

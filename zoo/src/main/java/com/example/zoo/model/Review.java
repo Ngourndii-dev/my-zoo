@@ -1,7 +1,6 @@
 package com.example.zoo.model;
 
 import lombok.*;
-
 @AllArgsConstructor
 @Getter
 @Setter
@@ -14,4 +13,12 @@ public class Review {
     private String comment;
     private String status;
     public Review(){}
+
+    public Review(String author, Animal animal, int rating, String comment, String status) {
+        this.author = author;
+        this.animal = animal;
+        this.rating = rating;
+        this.comment = comment;
+        this.status = status;
+    }
 }

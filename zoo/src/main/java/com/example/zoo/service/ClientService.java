@@ -23,4 +23,7 @@ public class ClientService {
     public Client getById(int id) {
         return clientDAO.getById(id);
     }
+    public void delete(int id){
+        clientDAO.delete(id);
+    }
 }

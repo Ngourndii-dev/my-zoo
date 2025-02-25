@@ -17,7 +17,7 @@ public class AnimalTemplateDAO {
     private Connection connection;
     public AnimalTemplate insert(AnimalTemplate animalTemplate){
         try {
-            String query = "INSERT INTO animal_template (name,specie) VALUES (?, ?)";
+            String query = "INSERT INTO animal_template (name,species) VALUES (?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1,animalTemplate.getName());
             statement.setString(2, animalTemplate.getSpecies());
@@ -27,7 +27,6 @@ public class AnimalTemplateDAO {
         }
         return animalTemplate;
     }
-
     public List<AnimalTemplate> findAll() {
         List<AnimalTemplate> animalTemplateList = new ArrayList<>();
         try {
@@ -47,7 +46,6 @@ public class AnimalTemplateDAO {
         }
         return animalTemplateList;
     }
-
     public AnimalTemplate getById(int id) {
         AnimalTemplate animalTemplate = new AnimalTemplate();
         try {

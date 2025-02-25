@@ -12,4 +12,10 @@ public class Client {
     private String phoneNumber;
     private String email;
     public Client(){}
+
+    public Client(String clientName, String phoneNumber, String email) {
+        this.clientName = clientName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 }
