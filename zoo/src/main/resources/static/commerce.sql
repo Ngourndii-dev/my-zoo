@@ -58,3 +58,9 @@ CREATE TABLE operation(
   operation_date date,
   operation_type varchar(50) not null
 );
+
+ALTER TABLE animal_template
+ADD COLUMN image_url VARCHAR(50);
+
+ALTER TABLE animal
+ADD COLUMN image_url VARCHAR(50);
