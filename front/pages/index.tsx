@@ -1,17 +1,16 @@
-import About from '@/components/About'
-import Link from 'next/link'
-import React from 'react'
+import Navbar from "@/components/Navbar";
+import Head from "next/head";
 
-export default function index() {
+export default function Home() {
   return (
-    <div>
-      <Link href="/">About </Link> 
-      <Link href="/contact">Contact </Link> 
-      <Link href="/sales">Sales </Link> 
-      <Link href="/service">Service </Link>
-      <About /> 
-       <h1 className="text-3xl font-bold underline">Hello, Next.js!</h1>
-
-    </div>
-  ) 
+    <>
+      <Head>
+        <title>Accueil | Next.js Project</title>
+      </Head>
+      <Navbar />
+      <main className="container mx-auto mt-10">
+        <h1 className="text-3xl font-bold">Bienvenue sur notre site</h1>
+      </main>
+    </>
+  );
 }
