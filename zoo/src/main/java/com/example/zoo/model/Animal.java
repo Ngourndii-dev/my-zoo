@@ -18,9 +18,10 @@ public class Animal {
     private float rent;
     private String status;
     private String color;
+    private String imageUrl;
     public Animal(){}
 
-    public Animal(AnimalTemplate animalTemplate, String sex, String origin, float price, float rent, String status, String color) {
+    public Animal(AnimalTemplate animalTemplate, String sex, String origin, float price, float rent, String status, String color,String imageUrl) {
         this.animalTemplate = animalTemplate;
         this.sex = sex;
         this.origin = origin;
@@ -28,5 +29,6 @@ public class Animal {
         this.rent = rent;
         this.status = status;
         this.color = color;
+        this.imageUrl=imageUrl;
     }
 }

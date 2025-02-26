@@ -20,7 +20,7 @@ public class AnimalDAO {
     private AnimalTemplateDAO animalTemplateDAO;
     public Animal insert(Animal animal){
         try {
-            String query = "INSERT INTO animal (id_animal_template,sex,origin,price,rent,status,color) VALUES (?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO animal (id_animal_template,sex,origin,price,rent,status,color,image_url) VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(2, animal.getAnimalTemplate().getId());
             statement.setString(3, animal.getSex());
@@ -29,6 +29,7 @@ public class AnimalDAO {
             statement.setFloat(7, animal.getRent());
             statement.setString(8, animal.getStatus());
             statement.setString(8,animal.getColor());
+            statement.setString(9, animal.getImageUrl());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +56,8 @@ public class AnimalDAO {
                         rs.getFloat("price"),
                         rs.getFloat("rent"),
                         rs.getString("status"),
-                        rs.getString("color")
+                        rs.getString("color"),
+                        rs.getString("image_url")
                 );
                 animalList.add(animal);
             }
@@ -83,6 +85,7 @@ public class AnimalDAO {
                 animal.setRent(resultSet.getFloat("rent"));
                 animal.setStatus(resultSet.getString("status"));
                 animal.setColor(resultSet.getString("color"));
+                animal.setImageUrl(resultSet.getString("image_url"));
             }
         } catch (Exception e) {
             e.printStackTrace();

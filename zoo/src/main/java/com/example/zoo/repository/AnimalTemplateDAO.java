@@ -17,10 +17,11 @@ public class AnimalTemplateDAO {
     private Connection connection;
     public AnimalTemplate insert(AnimalTemplate animalTemplate){
         try {
-            String query = "INSERT INTO animal_template (name,species) VALUES (?, ?)";
+            String query = "INSERT INTO animal_template (name,species,image_url) VALUES (?,?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1,animalTemplate.getName());
             statement.setString(2, animalTemplate.getSpecies());
+            statement.setString(3, animalTemplate.getImageUrl());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,7 +38,8 @@ public class AnimalTemplateDAO {
                 AnimalTemplate animalTemplate = new AnimalTemplate(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
-                        resultSet.getString("species")
+                        resultSet.getString("species"),
+                        resultSet.getString("image_url")
                 );
                 animalTemplateList.add(animalTemplate);
             }
@@ -58,6 +60,7 @@ public class AnimalTemplateDAO {
                 animalTemplate.setId(resultSet.getInt("id"));
                 animalTemplate.setName(resultSet.getString("name"));
                 animalTemplate.setSpecies(resultSet.getString("species"));
+                animalTemplate.setImageUrl(resultSet.getString("image_url"));
             }
         } catch (Exception e) {
             e.printStackTrace();

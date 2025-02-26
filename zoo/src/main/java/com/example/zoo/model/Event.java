@@ -11,13 +11,15 @@ public class Event {
     private Animal animal;
     private String image;
     private Date situationDate;
-public Event(){
+    private String descriptionEvent;
+    public Event(){
 
 }
 
-    public Event(Animal animal, String image, Date situationDate) {
+    public Event(Animal animal, String image, Date situationDate,String descriptionEvent) {
         this.animal = animal;
         this.image = image;
         this.situationDate = situationDate;
+        this.descriptionEvent=descriptionEvent;
     }
 }
