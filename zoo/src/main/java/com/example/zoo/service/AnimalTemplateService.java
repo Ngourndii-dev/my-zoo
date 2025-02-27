@@ -25,4 +25,7 @@ public class AnimalTemplateService {
     public AnimalTemplate getById(int id) {
         return animalTemplateDAO.getById(id);
     }
+    public void delete(int id){
+        animalTemplateDAO.delete(id);
+    }
 }

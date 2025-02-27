@@ -8,53 +8,6 @@ const client = new Client({
     database: 'my_zoo',
 });
 
-async function insertAnimalTemplates() {
-    for (let i = 0; i < 50; i++) {
-        const name = `${faker.animal.dog()}_${i}`;
-        const species = "Canine";
-        const query = `
-            INSERT INTO animal_template (name, species)
-            VALUES ($1, $2);
-        `;
-        const values = [name, species];
-        try {
-            await client.query(query, values);
-            console.log(`Inserted animal template ${i + 1}`);
-        } catch (err) {
-            console.error('Error inserting animal template:', err.stack);
-        }
-    }
-}
-
-async function insertAnimals() {
-    const statuses = ['available', 'unavailable'];
-    const sexes = ['male', 'female'];
-    const templateRes = await client.query('SELECT id FROM animal_template');
-    const templateIds = templateRes.rows.map(row => row.id);
-    
-    for (let i = 0; i < 50; i++) {
-        const id_animal_template = templateIds[Math.floor(Math.random() * templateIds.length)];
-        const sex = sexes[Math.floor(Math.random() * sexes.length)];
-        const origin = faker.location.country();
-        const price = parseFloat(faker.commerce.price());
-        const rent = parseFloat(faker.commerce.price());
-        const status = statuses[Math.floor(Math.random() * statuses.length)];
-        const color = faker.color.human();
-        
-        const query = `
-            INSERT INTO animal (id_animal_template, sex, origin, price, rent, status, color)
-            VALUES ($1, $2, $3, $4, $5, $6, $7);
-        `;
-        const values = [id_animal_template, sex, origin, price, rent, status, color];
-        try {
-            await client.query(query, values);
-            console.log(`Inserted animal ${i + 1}`);
-        } catch (err) {
-            console.error('Error inserting animal:', err.stack);
-        }
-    }
-}
-
 async function insertOrders() {
     const statuses = ['append', 'available', 'unavailable'];
     
@@ -63,7 +16,7 @@ async function insertOrders() {
     const clientIds = clientRes.rows.map(row => row.id);
     const animalIds = animalRes.rows.map(row => row.id);
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 30; i++) {
         const order_date = faker.date.past();
         const status = statuses[Math.floor(Math.random() * statuses.length)];
         const quantity = Math.floor(Math.random() * 10) + 1;
@@ -83,25 +36,22 @@ async function insertOrders() {
         }
     }
 }
-
-
 async function insertReviews() {
     const statuses = ['pending', 'available', 'unavailable'];
     const animalRes = await client.query('SELECT id FROM animal');
     const animalIds = animalRes.rows.map(row => row.id);
     
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 30; i++) {
         const author = faker.person.fullName();  
         const id_animal = animalIds[Math.floor(Math.random() * animalIds.length)];
         const rating = Math.floor(Math.random() * 5) + 1; 
         const comment = faker.lorem.sentence();
-        const status = statuses[Math.floor(Math.random() * statuses.length)];
         
         const query = `
-            INSERT INTO review (author, id_animal, rating, comment, status)
-            VALUES ($1, $2, $3, $4, $5);
+            INSERT INTO review (author, id_animal, rating, comment)
+            VALUES ($1, $2, $3, $4);
         `;
-        const values = [author, id_animal, rating, comment, status];
+        const values = [author, id_animal, rating, comment];
         try {
             await client.query(query, values);
             console.log(`Inserted review ${i + 1}`);
@@ -110,7 +60,6 @@ async function insertReviews() {
         }
     }
 }
-
 async function insertClients() {
     for (let i = 0; i < 50; i++) {
         const client_name = faker.person.fullName(); 
@@ -130,24 +79,54 @@ async function insertClients() {
         }
     }
 }
-
-
-async function insertData() {
+async function insertOperations() {
     try {
-        await insertAnimalTemplates();
-        await insertAnimals();
-        await insertReviews();
-        await insertClients();
-        await insertOrders();
-        await insertOperations();
-        await client.end();
+        const operationTypes = ['surgery', 'checkup', 'vaccination', 'dental', 'emergency'];
+        const animalRes = await client.query('SELECT id FROM animal');
+        const animalIds = animalRes.rows.map(row => row.id);
+
+        for (let i = 0; i < 20; i++) {
+            const price = parseFloat((Math.random() * 500).toFixed(2));
+            const id_animal = animalIds[Math.floor(Math.random() * animalIds.length)];
+            const operation_date = faker.date.past({ years: 2 }).toISOString().split('T')[0];
+            const operation_type = operationTypes[Math.floor(Math.random() * operationTypes.length)];
+
+            const query = `
+                INSERT INTO operation (price, id_animal, operation_date, operation_type)
+                VALUES ($1, $2, $3, $4);
+            `;
+            const values = [price, id_animal, operation_date, operation_type];
+            
+            await client.query(query, values);
+            console.log(`Inserted operation ${i + 1}`);
+        }
     } catch (err) {
-        console.error('Error during data insertion:', err.stack);
-        await client.end();
+        console.error('Error inserting operation:', err.stack);
     }
 }
 
-client.connect()
-    .then(() => console.log('Connected to the database'))
-    .catch(err => console.error('Connection error', err.stack))
-    .finally(() => insertData());
+async function insertData() {
+    try {
+        await insertOperations();
+        await insertReviews();
+        await insertClients();
+        await insertOrders();
+    } catch (err) {
+        console.error('Error during data insertion:', err.stack);
+    }
+}
+
+async function main() {
+    try {
+        await client.connect();
+        console.log('Connected to the database');
+        await insertData();
+    } catch (err) {
+        console.error('Connection error:', err.stack);
+    } finally {
+        await client.end();
+        console.log('Database connection closed');
+    }
+}
+
+main();

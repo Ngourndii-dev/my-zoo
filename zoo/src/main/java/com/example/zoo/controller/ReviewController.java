@@ -33,6 +33,14 @@ public class ReviewController {
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
         return ResponseEntity.ok().headers(headers).body(reviews);
     }
+    @GetMapping("/client")
+    public ResponseEntity<List<Review>> findAllToClient() {
+        List<Review> reviews = reviewService.findAllToClient();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", String.valueOf(reviews.size()));
+        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
+        return ResponseEntity.ok().headers(headers).body(reviews);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {

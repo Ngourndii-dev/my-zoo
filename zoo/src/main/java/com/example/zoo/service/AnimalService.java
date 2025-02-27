@@ -32,4 +32,7 @@ public class AnimalService {
     public Animal updateStatus(int id, String status) {
         return animalDAO.updateStatus(id, status);
     }
+    public void delete(int id){
+        animalDAO.delete(id);
+    }
 }

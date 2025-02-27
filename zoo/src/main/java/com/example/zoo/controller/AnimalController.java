@@ -51,4 +51,10 @@ public class AnimalController {
         Animal updatedAnimal = animalService.updateStatus(id, status);
         return ResponseEntity.ok(updatedAnimal);
     }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        animalService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

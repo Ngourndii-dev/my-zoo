@@ -7,6 +7,7 @@ import com.example.zoo.model.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
  
@@ -36,10 +37,9 @@ public class AnimalDAO {
         }
         return animal;
     }
-
     public List<Animal> findAll() {
         List<Animal> animalList = new ArrayList<>();
-        String query = "SELECT * FROM animal";
+        String query = "SELECT * FROM animal where status='available'";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
@@ -66,8 +66,6 @@ public class AnimalDAO {
         }
         return animalList;
     }
-
-
     public Animal getById(int id) {
         Animal animal = new Animal();
         try {
@@ -92,8 +90,6 @@ public class AnimalDAO {
         }
         return animal;
     }
-
-
     public Animal updatePrice(int id, float price) {
         String query = "UPDATE animal SET price = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -122,5 +118,17 @@ public class AnimalDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    public void delete(int id) {
+        String query = "DELETE FROM animal WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Deletion successful.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error during deletion: " + e.getMessage());
+        }
     }
 }

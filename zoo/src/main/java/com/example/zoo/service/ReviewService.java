@@ -26,6 +26,9 @@ public class ReviewService {
     public Review getById(int id) {
         return reviewDAO.getById(id);
     }
+    public List<Review> findAllToClient(){
+        return reviewDAO.findAllToClient();
+    }
 
 
 }

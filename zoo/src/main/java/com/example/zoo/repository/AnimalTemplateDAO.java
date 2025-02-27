@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
  
@@ -66,6 +67,18 @@ public class AnimalTemplateDAO {
             e.printStackTrace();
         }
         return animalTemplate;
+    }
+    public void delete(int id) {
+        String query = "DELETE FROM animal_template WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            int rows = statement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Deletion successful.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error during deletion: " + e.getMessage());
+        }
     }
 }
 

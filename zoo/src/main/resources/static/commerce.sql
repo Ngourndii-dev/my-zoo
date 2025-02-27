@@ -5,7 +5,8 @@ CREATE DATABASE my_zoo;
 CREATE TABLE animal_template(
   id serial primary key,
   name varchar (100) not null unique,
-  species varchar(100) not null
+  species varchar(100) not null,
+  image_url varchar(50)
 );
 
 CREATE TABLE animal (
@@ -16,14 +17,16 @@ CREATE TABLE animal (
   price float,
   rent float,
   status VARCHAR(50) CHECK (status IN ('available', 'unavailable')),
-  color varchar (50) not null
+  color varchar (50) not null,
+  image_url varchar(50)
 );
 
 CREATE TABLE event (
   id serial primary key,
   id_animal int references animal(id),
   image varchar(20) not null,
-  situation_date date not null
+  situation_date date not null,
+  description_event varchar(50)
 );
 
 CREATE TABLE review (
@@ -31,8 +34,7 @@ CREATE TABLE review (
     author VARCHAR(50) NOT NULL,
     id_animal INT REFERENCES animal(id),
     rating INT CHECK (rating BETWEEN 1 AND 5),
-    comment VARCHAR(100),
-    status VARCHAR(50) CHECK (status IN ('pending', 'available', 'unavailable'))
+    comment VARCHAR(100)
 );
 
 CREATE TABLE client (
@@ -58,9 +60,3 @@ CREATE TABLE operation(
   operation_date date,
   operation_type varchar(50) not null
 );
-
-ALTER TABLE animal_template
-ADD COLUMN image_url VARCHAR(50);
-
-ALTER TABLE animal
-ADD COLUMN image_url VARCHAR(50);

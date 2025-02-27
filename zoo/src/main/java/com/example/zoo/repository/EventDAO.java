@@ -36,7 +36,7 @@ public class EventDAO {
     public List<Event> findAll() {
         List<Event> eventList = new ArrayList<>();
         try {
-            String query = "SELECT * FROM event";
+            String query = "SELECT * FROM event WHERE situation_date < NOW()";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 

@@ -44,4 +44,10 @@ public class AnimalTemplateController {
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
         return ResponseEntity.ok().headers(headers).body(Map.of("data", template));
     }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        animalTemplateService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

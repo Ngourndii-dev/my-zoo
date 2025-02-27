@@ -59,6 +59,30 @@ public class ReviewDAO {
         }
         return reviewList;
     }
+    public List<Review> findAllToClient() {
+        List<Review> reviewList = new ArrayList<>();
+        try {
+            String query = "SELECT * FROM review LIMIT 3";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int animalId = rs.getInt("id_animal");
+                Animal animal = animalDAO.getById(animalId);
+                Review review = new Review(
+                        rs.getInt("id"),
+                        rs.getString("author"),
+                        animal,
+                        rs.getInt("rating"),
+                        rs.getString("comment"),
+                        rs.getString("status")
+                );
+                reviewList.add(review);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reviewList;
+    }
 
     public Review getById(int id) {
         Review review = null;
