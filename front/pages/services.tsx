@@ -1,6 +1,3 @@
-
-
-
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -38,37 +35,36 @@ const hoverEffect = {
 
 const services = [
   {
-    title: "Maintenance Professionnelle",
-    description: "Nous offrons un service de maintenance fiable pour assurer la longévité de vos équipements.",
+    title: "Professional Maintenance",
+    description: "We offer reliable maintenance services to ensure the longevity of your equipment.",
     icon: <WrenchScrewdriverIcon className="w-10 h-10 text-blue-600" />,
     image: top1,
   },
   {
-    title: "Sécurité Garantie",
-    description: "Nos services sont conçus pour offrir une protection optimale à vos biens et équipements.",
+    title: "Guaranteed Security",
+    description: "Our services are designed to provide optimal protection for your assets and equipment.",
     icon: <ShieldCheckIcon className="w-10 h-10 text-green-600" />,
     image: top2,
   },
   {
-    title: "Intervention Rapide",
-    description: "Nous garantissons une prise en charge rapide et efficace de vos besoins urgents.",
+    title: "Fast Intervention",
+    description: "We guarantee a quick and efficient response to your urgent needs.",
     icon: <BoltIcon className="w-10 h-10 text-yellow-500" />,
     image: top1,
   },
   {
-    title: "Livraison Express",
-    description: "Un service de livraison rapide et sécurisé pour tous vos équipements.",
+    title: "Express Delivery",
+    description: "A fast and secure delivery service for all your equipment.",
     icon: <TruckIcon className="w-10 h-10 text-red-600" />,
     image: top2,
   },
   {
-    title: "Support Client 24/7",
-    description: "Une assistance dédiée et disponible en permanence pour répondre à toutes vos questions.",
+    title: "24/7 Customer Support",
+    description: "Dedicated assistance available at all times to answer your questions.",
     icon: <HeartIcon className="w-10 h-10 text-pink-600" />,
     image: top1,
   },
 ];
-
 
 export default function Services() {
   return (
@@ -82,10 +78,10 @@ export default function Services() {
           className="max-w-3xl mx-auto mb-12 lg:mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-            Nos Services <span className="text-blue-800">Exceptionnels</span>
+            Our <span className="text-blue-800">Exceptional</span> Services
           </h2>
           <p className="text-gray-600 text-base md:text-lg lg:text-xl">
-            Découvrez notre gamme de services premium conçus pour répondre à tous vos besoins techniques.
+            Explore our premium range of services designed to meet all your technical needs.
           </p>
         </motion.div>
 
@@ -137,12 +133,12 @@ export default function Services() {
                 </p>
                 <div className="mt-auto">
                   <motion.button
-                    aria-label={`En savoir plus sur ${service.title}`}
+                    aria-label={`Learn more about ${service.title}`}
                     className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 transform hover:scale-[1.02]"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    En savoir plus
+                    Learn More
                   </motion.button>
                 </div>
               </div>

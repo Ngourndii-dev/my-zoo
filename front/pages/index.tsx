@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import Sales from './sales';
 import Services from './services';
+import Sales from './sales';
 import Contact from './contact';
 
 export default function Home() {
@@ -9,8 +9,8 @@ export default function Home() {
     <div>
       <Navbar />
       <Hero />
-      <Sales />
       <Services />
+      <Sales />
       <Contact />
     </div>
   );
