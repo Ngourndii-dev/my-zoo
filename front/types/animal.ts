@@ -1,11 +1,18 @@
+import { AnimalTemplate } from './animalTemplate';
+
 export interface Animal {
-    id: number;
-    name: string;
-    sex: "male" | "female";
-    origin: string;
-    price: number;
-    rent: number;
-    status: "available" | "unavailable";
-    color: string;
-    image: string;
-  }
+  id: number;
+  animalTemplate: AnimalTemplate;
+  sexe?: string;
+  sex?: string;
+  origine?: string;
+  origin?: string;
+  prix?: number;
+  price?: number;
+  loyer?: number;
+  rent?: number;
+  status: string;
+  couleur?: string;
+  color?: string;
+  imageUrl: string;
+}

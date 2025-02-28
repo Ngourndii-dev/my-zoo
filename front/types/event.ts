@@ -1,8 +1,9 @@
+import { Animal } from './animal';
+
 export interface Event {
-    id: number;
-    id_animal:number;
-    image: string;
-    quantity: number;
-    situation_date:Date;
-    description_event: string;
-  }
+  id: number;
+  animal: Animal;
+  image: string;
+  situationDate: string;
+  descriptionEvent: string;
+}

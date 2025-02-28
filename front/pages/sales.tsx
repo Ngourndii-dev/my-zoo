@@ -1,8 +1,9 @@
 import React from 'react'
-import '../styles/global.css';
 
-export default function sales() {
+export default function Sales() {
   return (
-    <div>sales</div>
+    <div id='sales'>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia iure illo est magnam cum distinctio tempore eaque veniam expedita tempora quo quasi ex esse cumque ducimus nihil, animi dolores saepe!</p>
+    </div>
   )
 }

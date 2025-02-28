@@ -15,18 +15,38 @@ export default function Navbar() {
         </div>
 
         <ul className="hidden md:flex space-x-8">
-          {["About", "Sales", "Services", "Contact"].map((item) => (
-            <li key={item}>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-white font-medium transition duration-300
+          <li>
+            <a href="#" className="text-gray-300 hover:text-white font-medium transition duration-300
                            relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
                            after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
               >
-                {item}
-              </a>
-            </li>
-          ))}
+              About
+            </a>
+          </li>
+           <li>
+           <a href="#sales" className="text-gray-300 hover:text-white font-medium transition duration-300
+                          relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
+                          after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
+             >
+             Sales
+           </a>
+         </li>
+          <li>
+          <a href="#services" className="text-gray-300 hover:text-white font-medium transition duration-300
+                         relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
+                         after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
+            >
+            Services
+          </a>
+        </li>
+         <li>
+         <a href="#contact" className="text-gray-300 hover:text-white font-medium transition duration-300
+                        relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
+                        after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
+           >
+           Contact
+         </a>
+       </li>
         </ul>
 
         <div className="hidden md:flex">

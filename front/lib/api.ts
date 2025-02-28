@@ -8,6 +8,10 @@ export async function fetchReviews() {
     return response.json();
 }
 export async function fetchEvent() {
-    const response = await fetch("http://localhost:8080/events");
+    const response = await fetch("http://localhost:8080/events/client");
+    return response.json();
+}
+export async function fetchAnimalsTemplate() {
+    const response = await fetch("http://localhost:8080/animal-templates");
     return response.json();
 }

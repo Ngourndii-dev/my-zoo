@@ -1,8 +1,9 @@
 import React from 'react'
-import '../styles/global.css';
 
-export default function contact() {
+export default function Contact() {
   return (
-    <div>contact</div>
+    <div id='contact'>
+
+    </div>
   )
 }
