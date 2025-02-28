@@ -1,8 +1,8 @@
 import React from 'react'
 import '../styles/global.css';
 
-export default function contact() {
+export default function event() {
   return (
-    <div>contact</div>
+    <div>event</div>
   )
 }

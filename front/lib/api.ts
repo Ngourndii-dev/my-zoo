@@ -4,6 +4,10 @@ export async function fetchAnimals() {
   }
   
 export async function fetchReviews() {
-    const response = await fetch("http://localhost:8080/reviews");
+    const response = await fetch("http://localhost:8080/reviews/client");
     return response.json();
-  }
+}
+export async function fetchEvent() {
+    const response = await fetch("http://localhost:8080/events");
+    return response.json();
+}
