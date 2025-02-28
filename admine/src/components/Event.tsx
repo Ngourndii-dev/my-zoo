@@ -1,71 +1,75 @@
 import {
-    List,
-    Edit,
-    Create,
-    Show,
-    SimpleForm,
-    TextInput,
-    required,
-    Datagrid,
-    TextField,
-    SimpleShowLayout,
-    ReferenceField,
-    ReferenceInput,
-    SelectInput,
-    DateInput,
-    ImageField,
-    NumberField,
-    NumberInput,
-  } from 'react-admin';
+  List,
+  Edit,
+  Create,
+  Show,
+  SimpleForm,
+  TextInput,
+  required,
+  Datagrid,
+  TextField,
+  SimpleShowLayout,
+  ReferenceField,
+  ReferenceInput,
+  SelectInput,
+  DateInput,
+  ImageField,
+  NumberField,
+  NumberInput,
+  DateField,
+} from 'react-admin';
 
 export const EventList = () => (
-    <List>
-      <Datagrid rowClick="show">
-        <NumberField source="id" />
-        <ReferenceField source="id_animal" reference="animals">
-          <TextField source="id" />
-        </ReferenceField>
-        <ImageField source="image" />
-        <TextField source="situation_date" />
-      </Datagrid>
-    </List>
+  <List>
+    <Datagrid rowClick="show">
+      <NumberField source="id" />
+      <ReferenceField source="animal.id" reference="animals">
+        <TextField source="animalTemplate.name" />
+      </ReferenceField>
+      <ImageField source="image" />
+      <DateField source="situationDate" />
+      <TextField source="descriptionEvent" />
+    </Datagrid>
+  </List>
 );
-  
+
 export const EventEdit = () => (
-    <Edit>
-      <SimpleForm>
-        <NumberInput source="id" />
-        <ReferenceInput source="id_animal" reference="animals">
-          <SelectInput optionText="id" validate={[required()]} />
-        </ReferenceInput>
-        <TextInput source="image" validate={[required()]} />
-        <DateInput source="situation_date" validate={[required()]} />
-      </SimpleForm>
-    </Edit>
+  <Edit>
+    <SimpleForm>
+      <NumberInput source="id" disabled />
+      <ReferenceInput source="animal.id" reference="animals">
+        <SelectInput optionText="animalTemplate.name" validate={[required()]} />
+      </ReferenceInput>
+      <TextInput source="image" validate={[required()]} />
+      <DateInput source="situationDate" validate={[required()]} />
+      <TextInput source="descriptionEvent" multiline />
+    </SimpleForm>
+  </Edit>
 );
-  
+
 export const EventCreate = () => (
-    <Create>
-      <SimpleForm>
-        <NumberInput source="id" />
-        <ReferenceInput source="id_animal" reference="animals">
-          <SelectInput optionText="id" validate={[required()]} />
-        </ReferenceInput>
-        <TextInput source="image" validate={[required()]} />
-        <DateInput source="situation_date" validate={[required()]} />
-      </SimpleForm>
-    </Create>
+  <Create>
+    <SimpleForm>
+      <ReferenceInput source="animal.id" reference="animals">
+        <SelectInput optionText="animalTemplate.id" validate={[required()]} />
+      </ReferenceInput>
+      <TextInput source="image" validate={[required()]} />
+      <DateInput source="situationDate" validate={[required()]} />
+      <TextInput source="descriptionEvent" multiline />
+    </SimpleForm>
+  </Create>
 );
-  
+
 export const EventShow = () => (
-    <Show>
-      <SimpleShowLayout>
-        <NumberField source="id" />
-        <ReferenceField source="id_animal" reference="animals">
-          <TextField source="id" />
-        </ReferenceField>
-        <ImageField source="image" />
-        <TextField source="situation_date" />
-      </SimpleShowLayout>
-    </Show>
+  <Show>
+    <SimpleShowLayout>
+      <NumberField source="id" />
+      <ReferenceField source="animal.id" reference="animals">
+        <TextField source="animalTemplate.id" />
+      </ReferenceField>
+      <ImageField source="image" />
+      <DateField source="situationDate" />
+      <TextField source="descriptionEvent" />
+    </SimpleShowLayout>
+  </Show>
 );

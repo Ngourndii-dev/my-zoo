@@ -1,95 +1,127 @@
 import {
-    List,
-    Edit,
-    Create,
-    Show,
-    SimpleForm,
-    TextInput,
-    required,
-    Datagrid,
-    TextField,
-    SimpleShowLayout,
-    ReferenceField,
-    ReferenceInput,
-    SelectInput,
-    NumberInput,
-    NumberField,
-  } from 'react-admin';
-  
+  List,
+  Edit,
+  Create,
+  Show,
+  SimpleForm,
+  TextInput,
+  required,
+  Datagrid,
+  TextField,
+  SimpleShowLayout,
+  ReferenceInput,
+  SelectInput,
+  NumberInput,
+  NumberField,
+  useRecordContext,
+} from 'react-admin';
+
+const AnimalTemplateField = () => {
+  const record = useRecordContext();
+  return <span>{record?.animalTemplate?.name}</span>;
+};
+
 export const AnimalList = () => (
-    <List>
-      <Datagrid rowClick="show">
-        <NumberField source="id" />
-        <ReferenceField source="id_animal_template" reference="animal_templates">
-          <TextField source="name" />
-        </ReferenceField>
-        <TextField source="sex" />
-        <TextField source="origin" />
-        <TextField source="price" />
-        <TextField source="status" />
-      </Datagrid>
-    </List>
+  <List>
+    <Datagrid rowClick="show">
+      <NumberField source="id" />
+      <AnimalTemplateField label="Template" />
+      <TextField source="sex" />
+      <TextField source="origin" />
+      <NumberField source="price" />
+      <TextField source="status" />
+    </Datagrid>
+  </List>
 );
-  
+
 export const AnimalEdit = () => (
-    <Edit>
-      <SimpleForm>
-        <NumberInput source="id" />
-        <ReferenceInput source="id_animal_template" reference="animal_templates">
-          <SelectInput optionText="name" validate={[required()]} />
-        </ReferenceInput>
-        <SelectInput source="sex" choices={[
-          { id: 'male', name: 'Male' },
-          { id: 'female', name: 'Female' }
-        ]} />
-        <TextInput source="origin" validate={[required()]} />
-        <NumberInput source="price" />
-        <NumberInput source="rent" />
-        <SelectInput source="status" choices={[
-          { id: 'available', name: 'Available' },
-          { id: 'unavailable', name: 'Unavailable' }
-        ]} />
-        <TextInput source="color" validate={[required()]} />
-      </SimpleForm>
-    </Edit>
+  <Edit>
+    <SimpleForm>
+      <NumberInput disabled source="id" />
+      <ReferenceInput 
+        source="animalTemplate.id" 
+        reference="animal_templates"
+        label="Template"
+      >
+        <SelectInput 
+          optionText="name" 
+          validate={[required()]} 
+        />
+      </ReferenceInput>
+      <SelectInput 
+        source="sex" 
+        choices={[
+          { id: 'mâle', name: 'Mâle' },
+          { id: 'femelle', name: 'Femelle' }
+        ]} 
+      />
+      <TextInput source="origin" validate={[required()]} />
+      <NumberInput source="price" />
+      <NumberInput source="rent" />
+      <SelectInput 
+        source="status" 
+        choices={[
+          { id: 'disponible', name: 'Disponible' },
+          { id: 'indisponible', name: 'Indisponible' }
+        ]} 
+      />
+      <TextInput source="color" validate={[required()]} />
+    </SimpleForm>
+  </Edit>
 );
-  
+
 export const AnimalCreate = () => (
-    <Create>
-      <SimpleForm>
-        <NumberInput source="id" />
-        <ReferenceInput source="id_animal_template" reference="animal_templates">
-          <SelectInput optionText="name" validate={[required()]} />
-        </ReferenceInput>
-        <SelectInput source="sex" choices={[
-          { id: 'male', name: 'Male' },
-          { id: 'female', name: 'Female' }
-        ]} />
-        <TextInput source="origin" validate={[required()]} />
-        <NumberInput source="price" />
-        <NumberInput source="rent" />
-        <SelectInput source="status" choices={[
-          { id: 'available', name: 'Available' },
-          { id: 'unavailable', name: 'Unavailable' }
-        ]} />
-        <TextInput source="color" validate={[required()]} />
-      </SimpleForm>
-    </Create>
+  <Create>
+    <SimpleForm>
+      <ReferenceInput 
+        source="animalTemplate.id" 
+        reference="animal_templates"
+        label="Template"
+      >
+        <SelectInput 
+          optionText="name" 
+          validate={[required()]} 
+        />
+      </ReferenceInput>
+      <SelectInput 
+        source="sex" 
+        choices={[
+          { id: 'mâle', name: 'Mâle' },
+          { id: 'femelle', name: 'Femelle' }
+        ]} 
+      />
+      <TextInput source="origin" validate={[required()]} />
+      <NumberInput source="price" />
+      <NumberInput source="rent" />
+      <SelectInput 
+        source="status" 
+        choices={[
+          { id: 'disponible', name: 'Disponible' },
+          { id: 'indisponible', name: 'Indisponible' }
+        ]} 
+      />
+      <TextInput source="color" validate={[required()]} />
+    </SimpleForm>
+  </Create>
 );
-  
+
 export const AnimalShow = () => (
-    <Show>
-      <SimpleShowLayout>
-        <NumberField source="id" />
-        <ReferenceField source="id_animal_template" reference="animal_templates">
-          <TextField source="name" />
-        </ReferenceField>
-        <TextField source="sex" />
-        <TextField source="origin" />
-        <TextField source="price" />
-        <TextField source="rent" />
-        <TextField source="status" />
-        <TextField source="color" />
-      </SimpleShowLayout>
-    </Show>
+  <Show>
+    <SimpleShowLayout>
+      <NumberField source="id" />
+      <AnimalTemplateField label="Template" />
+      <TextField source="sex" />
+      <TextField source="origin" />
+      <NumberField source="price" />
+      <NumberField source="rent" />
+      <TextField source="status" />
+      <TextField source="color" />
+      <TextField source="animalTemplate.species" label="Espèce" />
+      <img 
+        src="<record.animalTemplate.imageUrl>" 
+        alt="Template" 
+        style={{ maxWidth: '200px' }} 
+      />
+    </SimpleShowLayout>
+  </Show>
 );
