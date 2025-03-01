@@ -1,6 +1,7 @@
 import { MenuIcon, XIcon } from "lucide-react";
+import Image from "next/image";
 import React, { useState } from "react";
-
+import logo from "../public/me not alone.png"
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -8,10 +9,16 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-gray-900 to-blue-950 shadow-lg z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
         <div className="flex items-center space-x-12">
-          <span className="text-3xl font-extrabold text-white tracking-tight">
-            Paw Care
-            <span className="text-blue-400">.</span>
-          </span>
+        <span className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
+          Paw Care
+          <div className="text-blue-400 w-12 h-12"> 
+            <Image 
+              src={logo} 
+              alt="Logo" 
+              className="w-full h-full object-contain" 
+            />
+          </div>
+        </span>
         </div>
 
         <ul className="hidden md:flex space-x-8">
