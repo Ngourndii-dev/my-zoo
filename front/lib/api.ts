@@ -1,5 +1,5 @@
 export async function fetchAnimals() {
-    const response = await fetch("http://localhost:8080/animals");
+    const response = await fetch("http://localhost:8080/animals/client");
     return response.json();
   }
   
