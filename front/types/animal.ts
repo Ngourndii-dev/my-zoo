@@ -15,4 +15,4 @@ export interface Animal {
   couleur?: string;
   color?: string;
   imageUrl: string;
-}
+} 
