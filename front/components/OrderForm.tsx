@@ -1,77 +1,115 @@
-import { Order } from "@/types/order";
-import { useState } from "react";
-import { z } from "zod";
-import { create } from "zustand";
+import { Order } from '@/types/order';
+import React, { useState } from 'react';
 
-const orderSchema = z.object({
-  order_date: z.string().min(1, "La date est requise"),
-  status: z.enum(["append", "available", "unavailable"]),
-  quantity: z.number().min(1, "La quantité doit être au moins 1"),
-  id_client: z.number().min(1, "L'ID client est requis"),
-  id_animal: z.number().min(1, "L'ID animal est requis"),
-});
-
-interface OrderFormState {
-  order: Partial<Order>;
-  setOrder: (order: Partial<Order>) => void;
+interface OrderFormProps {
+  animalId: number;
+  onClose: () => void;
 }
 
-const useOrderStore = create<OrderFormState>((set) => ({
-  order: {},
-  setOrder: (order) => set({ order }),
-}));
-
-export function OrderForm() {
-  const { order, setOrder } = useOrderStore();
-  const [error, setError] = useState<string | null>(null);
+const OrderForm: React.FC<OrderFormProps> = ({ animalId, onClose }) => {
+  const [orderDate, setOrderDate] = useState<string>('');
+  const [status, setStatus] = useState<"append" | "available" | "unavailable">("append");
+  const [quantity, setQuantity] = useState<number>(1);
+  const [idClient, setIdClient] = useState<number>(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validation = orderSchema.safeParse(order);
-    if (!validation.success) {
-      setError(validation.error.errors.map((err) => err.message).join(", "));
-      return;
+
+    const order: Order = {
+      id: 0,
+      order_date: orderDate,
+      status,
+      quantity,
+      id_client: idClient,
+      id_animal: animalId,
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(order),
+      });
+
+      if (response.ok) {
+        alert('Order placed successfully!');
+        onClose();
+      } else {
+        alert('Failed to place order.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while placing the order.');
     }
-    setError(null);
-    await fetch("http://localhost:8080/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order),
-    });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="order_date">Date de la commande</label>
-        <input
-          type="date"
-          id="order_date"
-          onChange={(e) => setOrder({ ...order, order_date: e.target.value })}
-        />
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-bold text-white mb-4">Place Order</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Order Date</label>
+            <input
+              type="date"
+              value={orderDate}
+              onChange={(e) => setOrderDate(e.target.value)}
+              className="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md text-white"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Status</label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value as "append" | "available" | "unavailable")}
+              className="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md text-white"
+              required
+            >
+              <option value="append">Append</option>
+              <option value="available">Available</option>
+              <option value="unavailable">Unavailable</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Quantity</label>
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md text-white"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Client ID</label>
+            <input
+              type="number"
+              value={idClient}
+              onChange={(e) => setIdClient(Number(e.target.value))}
+              className="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-md text-white"
+              required
+            />
+          </div>
+          <div className="flex justify-end space-x-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
-      <div>
-        <label htmlFor="quantity">Quantité</label>
-        <input
-          type="number"
-          id="quantity"
-          placeholder="Quantité"
-          onChange={(e) => setOrder({ ...order, quantity: Number(e.target.value) })}
-        />
-      </div>
-      <div>
-        <label htmlFor="status">Statut</label>
-        <select
-          id="status"
-          onChange={(e) => setOrder({ ...order, status: e.target.value })}
-        >
-          <option value="append">Append</option>
-          <option value="available">Available</option>
-          <option value="unavailable">Unavailable</option>
-        </select>
-      </div>
-      <button type="submit">Envoyer</button>
-      {error && <p>{error}</p>}
-    </form>
+    </div>
   );
-}
+};
