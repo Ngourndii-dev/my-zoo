@@ -1,5 +1,0 @@
-this is an application to search your animal company
-layout=navbar + footer 
-server component = fething data depuis le back 
-utilisation de zod , zustand pour la validation des données
-
