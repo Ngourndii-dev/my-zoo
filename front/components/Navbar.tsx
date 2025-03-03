@@ -25,7 +25,7 @@ export default function Navbar() {
 
         <ul className="hidden md:flex space-x-8">
           <li>
-            <a href="#" className="text-gray-300 hover:text-white font-medium transition duration-300
+            <a href="/" className="text-gray-300 hover:text-white font-medium transition duration-300
                            relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
                            after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
               >
@@ -33,7 +33,7 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="#sales" className="text-gray-300 hover:text-white font-medium transition duration-300
+            <a href="/sales" className="text-gray-300 hover:text-white font-medium transition duration-300
                           relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
                           after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
               >
@@ -41,7 +41,7 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="#services" className="text-gray-300 hover:text-white font-medium transition duration-300
+            <a href="/services" className="text-gray-300 hover:text-white font-medium transition duration-300
                          relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
                          after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
               >
@@ -49,7 +49,23 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="#contact" className="text-gray-300 hover:text-white font-medium transition duration-300
+            <a href="/register" className="text-gray-300 hover:text-white font-medium transition duration-300
+                        relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
+                        after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
+              >
+              Register
+            </a>
+          </li>
+          <li>
+            <a href="/animal" className="text-gray-300 hover:text-white font-medium transition duration-300
+                        relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
+                        after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
+              >
+              View all animals
+            </a>
+          </li>
+          <li>
+            <a href="/contact" className="text-gray-300 hover:text-white font-medium transition duration-300
                         relative after:absolute after:-bottom-2 after:left-0 after:w-0 after:h-0.5 
                         after:bg-blue-400 hover:after:w-full after:transition-all after:duration-300"
               >

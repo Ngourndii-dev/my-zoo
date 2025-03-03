@@ -1,13 +1,15 @@
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import Services from './services';
-import Sales from './sales';
-import Contact from './contact';
+import Sales from '@/components/Sales';
+import Contact from '@/components/ContactForm';
+import Services from '@/components/Services';
+import Separator from '@/components/ui/Separator';
 
 export default function Home() {
   return (
     <div>
       <Navbar />
+      <Separator/>
       <Hero />
       <Services />
       <Sales />
