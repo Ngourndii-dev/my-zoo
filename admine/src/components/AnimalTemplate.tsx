@@ -12,7 +12,6 @@ import {
   NumberField,
   NumberInput,
   ImageField,
-  ImageInput,
 } from 'react-admin';
 
 export const AnimalTemplateList= () => (
@@ -21,7 +20,7 @@ export const AnimalTemplateList= () => (
       <NumberField source="id" />
       <TextField source="name" />
       <TextField source="species" />
-      <ImageField source="image_url"/>
+      <ImageField source="imageUrl"/>
     </Datagrid>
   </List>
 );
@@ -32,7 +31,7 @@ export const AnimalTemplateEdit = () => (
       <NumberInput source="id" />
       <TextInput source="name" validate={[required()]} fullWidth />
       <TextInput source="species" validate={[required()]} fullWidth />
-      <ImageInput source="image_url"/>
+      <TextInput source="imageUrl"/>
     </SimpleForm>
   </Edit>
 );
@@ -43,7 +42,7 @@ export const AnimalTemplateCreate = () => (
       <NumberInput source="id" />
       <TextInput source="name" validate={[required()]} fullWidth />
       <TextInput source="species" validate={[required()]} fullWidth />
-      <ImageInput source="image_url"/>
+      <TextInput source="imageUrl"/>
     </SimpleForm>
   </Create>
 );
@@ -54,7 +53,7 @@ export const AnimalTemplateShow = () => (
       <NumberField source="id" />
       <TextField source="name" />
       <TextField source="species" />
-      <ImageField source="image_url"/>
+      <ImageField source="imageUrl"/>
     </SimpleShowLayout>
   </Show>
 );

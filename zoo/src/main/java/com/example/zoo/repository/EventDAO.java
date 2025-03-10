@@ -46,6 +46,7 @@ public class EventDAO {
                 event.setAnimal(animalDAO.getById(resultSet.getInt("id_animal")));
                 event.setImage(resultSet.getString("image"));
                 event.setSituationDate(resultSet.getDate("situation_date"));
+                event.setDescriptionEvent(resultSet.getString("description_event"));
                 eventList.add(event);
             }
         } catch (Exception e) {
@@ -68,6 +69,7 @@ public class EventDAO {
                 event.setAnimal(animalDAO.getById(resultSet.getInt("id_animal")));
                 event.setImage(resultSet.getString("image"));
                 event.setSituationDate(resultSet.getDate("situation_date"));
+                event.setDescriptionEvent(resultSet.getString("description_event"));
             }
         } catch (Exception e) {
             e.printStackTrace();

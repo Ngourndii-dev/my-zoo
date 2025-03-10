@@ -26,6 +26,13 @@ export const App : React.FC = () => (
       show={AnimalShow}
       create={AnimalCreate}
     />
+     <Resource
+      name="animal-templates"
+      list={AnimalTemplateList}
+      edit={AnimalTemplateEdit}
+      show={AnimalTemplateShow}
+      create={AnimalTemplateCreate}
+    />
     <Resource
       name="clients"
       list={ClientList}
