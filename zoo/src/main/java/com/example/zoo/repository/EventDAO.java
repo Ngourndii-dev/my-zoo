@@ -23,10 +23,10 @@ public class EventDAO {
         try {
             String query = "INSERT INTO event(id_animal,image,situation_date,description_event) VALUES (?,?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(2, event.getAnimal().getId());
-            statement.setString(3, event.getImage());
-            statement.setDate(4, event.getSituationDate());
-            statement.setString(5, event.getDescriptionEvent());
+            statement.setInt(1, event.getAnimal().getId());
+            statement.setString(2, event.getImage());
+            statement.setDate(3, event.getSituationDate());
+            statement.setString(4, event.getDescriptionEvent());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +46,6 @@ public class EventDAO {
                 event.setAnimal(animalDAO.getById(resultSet.getInt("id_animal")));
                 event.setImage(resultSet.getString("image"));
                 event.setSituationDate(resultSet.getDate("situation_date"));
-                event.setDescriptionEvent(resultSet.getString("image_url"));
                 eventList.add(event);
             }
         } catch (Exception e) {
@@ -69,7 +68,6 @@ public class EventDAO {
                 event.setAnimal(animalDAO.getById(resultSet.getInt("id_animal")));
                 event.setImage(resultSet.getString("image"));
                 event.setSituationDate(resultSet.getDate("situation_date"));
-                event.setDescriptionEvent(resultSet.getString("image_url"));
             }
         } catch (Exception e) {
             e.printStackTrace();

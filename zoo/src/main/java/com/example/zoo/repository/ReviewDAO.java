@@ -21,13 +21,12 @@ public class ReviewDAO {
 
     public Review insert(Review review) {
         try {
-            String query = "INSERT INTO review (author, id_animal, rating, comment, status) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO review (author, id_animal, rating, comment) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, review.getAuthor());
             statement.setInt(2, review.getAnimal().getId());
             statement.setInt(3, review.getRating());
             statement.setString(4, review.getComment());
-            statement.setString(5, review.getStatus());
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,8 +48,7 @@ public class ReviewDAO {
                         rs.getString("author"),
                         animal,
                         rs.getInt("rating"),
-                        rs.getString("comment"),
-                        rs.getString("status")
+                        rs.getString("comment")
                 );
                 reviewList.add(review);
             }
@@ -73,8 +71,7 @@ public class ReviewDAO {
                         rs.getString("author"),
                         animal,
                         rs.getInt("rating"),
-                        rs.getString("comment"),
-                        rs.getString("status")
+                        rs.getString("comment")
                 );
                 reviewList.add(review);
             }
@@ -99,7 +96,6 @@ public class ReviewDAO {
                 review.setAnimal(animalDAO.getById(resultSet.getInt("id_animal")));
                 review.setRating(resultSet.getInt("rating"));
                 review.setComment(resultSet.getString("comment"));
-                review.setStatus(resultSet.getString("status"));
             }
         } catch (Exception e) {
             e.printStackTrace();
