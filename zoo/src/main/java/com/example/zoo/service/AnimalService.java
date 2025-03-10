@@ -20,6 +20,9 @@ public class AnimalService {
     public List<Animal> findAll() {
         return animalDAO.findAll();
     }
+    public List<Animal> findAllByClient() {
+        return animalDAO.findAllByClient();
+    }
 
     public Animal getById(int id) {
         return animalDAO.getById(id);

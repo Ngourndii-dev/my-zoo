@@ -39,6 +39,35 @@ public class AnimalDAO {
     }
     public List<Animal> findAll() {
         List<Animal> animalList = new ArrayList<>();
+        String query = "SELECT * FROM animal";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int animalTemplateId = rs.getInt("id_animal_template");
+                AnimalTemplate animalTemplate = animalTemplateDAO.getById(animalTemplateId);
+
+                Animal animal = new Animal(
+                        rs.getInt("id"),
+                        animalTemplate,
+                        rs.getString("sex"),
+                        rs.getString("origin"),
+                        rs.getFloat("price"),
+                        rs.getFloat("rent"),
+                        rs.getString("status"),
+                        rs.getString("color"),
+                        rs.getString("image_url")
+                );
+                animalList.add(animal);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return animalList;
+    }
+    public List<Animal> findAllByClient() {
+        List<Animal> animalList = new ArrayList<>();
         String query = "SELECT * FROM animal where status='available'";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {

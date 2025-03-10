@@ -30,6 +30,14 @@ public class AnimalController {
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
         return ResponseEntity.ok().headers(headers).body(animals);
     }
+    @GetMapping("/client")
+    public ResponseEntity<List<Animal>> findAllByClient() {
+        List<Animal> animals = animalService.findAllByClient();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", String.valueOf(animals.size()));
+        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
+        return ResponseEntity.ok().headers(headers).body(animals);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {
