@@ -119,26 +119,12 @@ public class AnimalDAO {
         }
         return animal;
     }
-    public Animal updatePrice(int id, float price) {
-        String query = "UPDATE animal SET price = ? WHERE id = ?";
+    public Animal updateAnimal(int id, float price,String status) {
+        String query = "UPDATE animal SET price = ? , status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setFloat(1, price);
-            stmt.setInt(2, id);
-            int rows = stmt.executeUpdate();
-            if (rows > 0) {
-                return getById(id);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Animal updateStatus(int id, String status) {
-        String query = "UPDATE animal SET status = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, status);
-            stmt.setInt(2, id);
+            stmt.setString(2,status);
+            stmt.setInt(3, id);
             int rows = stmt.executeUpdate();
             if (rows > 0) {
                 return getById(id);

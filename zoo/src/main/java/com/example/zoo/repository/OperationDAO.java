@@ -27,7 +27,6 @@ public class OperationDAO {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setFloat(1, operation.getPrice());
             statement.setInt(2, operation.getAnimal().getId());
-
             statement.setDate(3, new Date(operation.getOperationDate().getTime()));
             statement.setString(4, operation.getOperationType());
             statement.executeUpdate();

@@ -1,16 +1,10 @@
 import {
     List,
-    Edit,
-    Create,
     Show,
-    SimpleForm,
-    TextInput,
-    required,
     Datagrid,
     TextField,
     SimpleShowLayout,
     NumberField,
-    NumberInput,
 } from 'react-admin';
 
 export const ClientList = () => (
@@ -22,28 +16,6 @@ export const ClientList = () => (
         <TextField source="email" />
       </Datagrid>
     </List>
-);
-  
-  export const ClientEdit = () => (
-    <Edit>
-      <SimpleForm>
-        <NumberInput source="id" />
-        <TextInput source="clientName" validate={[required()]} />
-        <TextInput source="phoneNumber" validate={[required()]} />
-        <TextInput source="email" validate={[required()]} type="email" />
-      </SimpleForm>
-    </Edit>
-);
-  
-  export const ClientCreate = () => (
-    <Create>
-      <SimpleForm>
-        <NumberInput source="id" />
-        <TextInput source="clientName" validate={[required()]} />
-        <TextInput source="phoneNumber" validate={[required()]} />
-        <TextInput source="email" validate={[required()]} type="email" />
-      </SimpleForm>
-    </Create>
 );
   
   export const ClientShow = () => (

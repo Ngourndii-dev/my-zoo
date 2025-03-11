@@ -39,7 +39,6 @@ export const AnimalTemplateEdit = () => (
 export const AnimalTemplateCreate = () => (
   <Create>
     <SimpleForm>
-      <NumberInput source="id" />
       <TextInput source="name" validate={[required()]} fullWidth />
       <TextInput source="species" validate={[required()]} fullWidth />
       <TextInput source="imageUrl"/>

@@ -48,15 +48,9 @@ public class AnimalController {
         return ResponseEntity.ok().headers(headers).body(Map.of("data", animal));
     }
 
-    @PutMapping("/{id}/price")
-    public ResponseEntity<Animal> updatePrice(@PathVariable int id, @RequestParam float price) {
-        Animal updatedAnimal = animalService.updatePrice(id, price);
-        return ResponseEntity.ok(updatedAnimal);
-    }
-
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Animal> updateStatus(@PathVariable int id, @RequestParam String status) {
-        Animal updatedAnimal = animalService.updateStatus(id, status);
+    @PutMapping("/{id}/update")
+    public ResponseEntity<Animal> updateStatus(@PathVariable int id, @RequestBody Animal animal) {
+        Animal updatedAnimal = animalService.updateAnimal(id, animal);
         return ResponseEntity.ok(updatedAnimal);
     }
     @DeleteMapping("{id}")

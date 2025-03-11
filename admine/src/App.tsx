@@ -8,7 +8,7 @@ import { AnimalTemplateCreate, AnimalTemplateEdit, AnimalTemplateList, AnimalTem
 import { ReviewList, ReviewShow } from "./components/Review";
 import customDataProvider from "./provider/dataProvider";
 import { AnimalCreate, AnimalEdit, AnimalList, AnimalShow } from "./components/Animal";
-import { ClientCreate, ClientEdit, ClientList, ClientShow } from "./components/Client";
+import { ClientList, ClientShow } from "./components/Client";
 import { EventCreate, EventEdit, EventList, EventShow } from "./components/Event";
 import { OperationCreate, OperationEdit, OperationList, OperationShow } from "./components/Operation";
 import { OrdersEdit, OrdersList, OrdersShow } from "./components/Orders";
@@ -36,9 +36,7 @@ export const App : React.FC = () => (
     <Resource
       name="clients"
       list={ClientList}
-      edit={ClientEdit}
       show={ClientShow}
-      create={ClientCreate}
     />
     <Resource
       name="events"
