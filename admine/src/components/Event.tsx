@@ -36,13 +36,8 @@ export const EventList = () => (
 export const EventEdit = () => (
   <Edit>
     <SimpleForm>
-      <NumberInput source="id" disabled />
-      <ReferenceInput source="animal.id" reference="animals">
-        <SelectInput optionText="animalTemplate.name" validate={[required()]} />
-      </ReferenceInput>
-      <TextInput source="image" validate={[required()]} />
-      <DateInput source="situationDate" validate={[required()]} />
-      <TextInput source="descriptionEvent" multiline />
+      <NumberField source="id" />
+      <DateInput source="situationDate" />
     </SimpleForm>
   </Edit>
 );

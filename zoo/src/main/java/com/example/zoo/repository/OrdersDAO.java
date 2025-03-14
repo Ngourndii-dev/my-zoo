@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
  
 
@@ -80,35 +81,17 @@ public class OrdersDAO {
         return order;
     }
 
-    public Orders updateStatus(int id, String status) {
+    public Orders updateStatus(int id, String status, Date date) {
         Orders order = getById(id);
         if (order != null) {
             try {
-                String query = "UPDATE orders SET status = ? WHERE id = ?";
+                String query = "UPDATE orders SET status = ? , order_date = ? WHERE id = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, status);
-                statement.setInt(2, id);
+                statement.setDate(2, (java.sql.Date) date);
+                statement.setInt(3,id);
                 statement.executeUpdate();
-
                 order.setStatus(status);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return order;
-    }
-
-    public Orders updateOrderDate(int id, java.sql.Date date) {
-        Orders order = getById(id);
-        if (order != null) {
-            try {
-                String query = "UPDATE orders SET order_date = ? WHERE id = ?";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setDate(1, date);
-                statement.setInt(2, id);
-                statement.executeUpdate();
-
-                order.setOrderDate(date);
             } catch (Exception e) {
                 e.printStackTrace();
             }

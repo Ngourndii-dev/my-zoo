@@ -21,9 +21,9 @@ public class OperationController {
     private final OperationService operationService;
 
     @PostMapping
-    public ResponseEntity<Operation> create(@RequestBody Operation operation) {
-        Operation operation1=operationService.insert(operation);
-        return ResponseEntity.ok(operation1);
+    public ResponseEntity<Void> create(@RequestBody Operation operation) {
+        operationService.insert(operation);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping

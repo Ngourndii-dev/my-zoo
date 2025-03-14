@@ -22,9 +22,9 @@ public class AnimalTemplateController {
     private final AnimalTemplateService animalTemplateService;
 
     @PostMapping
-    public ResponseEntity<AnimalTemplate> create(@RequestBody AnimalTemplate animalTemplate) {
-        AnimalTemplate animalTemplate1=animalTemplateService.insert(animalTemplate);
-        return ResponseEntity.ok(animalTemplate1);
+    public ResponseEntity<Void> create(@RequestBody AnimalTemplate animalTemplate) {
+        animalTemplateService.insert(animalTemplate);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping

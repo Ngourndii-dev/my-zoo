@@ -13,7 +13,8 @@ import {
   SelectInput,
   NumberInput,
   NumberField,
-  ImageField
+  ImageField,
+  ImageInput
 } from 'react-admin';
 
 export const AnimalList = () => (
@@ -27,6 +28,7 @@ export const AnimalList = () => (
       <NumberField source="rent" />
       <TextField source="status" />
       <TextField source="color" />
+      <ImageField source="imageUrl" label="Animal Image" />
     </Datagrid>
   </List>
 );
@@ -34,29 +36,16 @@ export const AnimalList = () => (
 export const AnimalEdit = () => (
   <Edit>
     <SimpleForm>
-      <NumberInput disabled source="id" />
-      <ReferenceInput source="animalTemplate.id" reference="animal_templates" label="Template">
-        <SelectInput optionText="name" validate={[required()]} />
-      </ReferenceInput>
-      <SelectInput 
-        source="sex" 
-        choices={[
-          { id: 'male', name: 'Male' },
-          { id: 'female', name: 'Female' }
-        ]} 
-      />
-      <TextInput source="origin" validate={[required()]} />
+      <NumberField source="id" />
       <NumberInput source="price" />
-      <NumberInput source="rent" />
-      <SelectInput 
-        source="status" 
+      <SelectInput
+        source="status"
         choices={[
           { id: 'available', name: 'Available' },
           { id: 'unavailable', name: 'Unavailable' }
-        ]} 
+        ]}
+        validate={[required()]}
       />
-      <TextInput source="color" validate={[required()]} />
-      <ImageField source="imageUrl" label="Animal Image" />
     </SimpleForm>
   </Edit>
 );
@@ -64,28 +53,32 @@ export const AnimalEdit = () => (
 export const AnimalCreate = () => (
   <Create>
     <SimpleForm>
-      <ReferenceInput source="animalTemplate.id" reference="animal_templates" label="Template">
+      <ReferenceInput source="id_animal_template" reference="animal_templates" label="Template">
         <SelectInput optionText="name" validate={[required()]} />
       </ReferenceInput>
-      <SelectInput 
-        source="sex" 
+      <SelectInput
+        source="sex"
         choices={[
           { id: 'male', name: 'Male' },
           { id: 'female', name: 'Female' }
-        ]} 
+        ]}
+        validate={[required()]}
       />
       <TextInput source="origin" validate={[required()]} />
       <NumberInput source="price" />
       <NumberInput source="rent" />
-      <SelectInput 
-        source="status" 
+      <SelectInput
+        source="status"
         choices={[
           { id: 'available', name: 'Available' },
           { id: 'unavailable', name: 'Unavailable' }
-        ]} 
+        ]}
+        validate={[required()]}
       />
       <TextInput source="color" validate={[required()]} />
-      <ImageField source="imageUrl" label="Animal Image" />
+      <ImageInput source="imageUrl" label="Animal Image">
+        <ImageField source="src" />
+      </ImageInput>
     </SimpleForm>
   </Create>
 );

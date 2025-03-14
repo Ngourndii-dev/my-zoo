@@ -24,7 +24,7 @@ public class EventService {
     public Event getById(int id) {
         return eventDAO.getById(id);
     }
-    public Event updateSituationDate(int id, Date date){
-        return eventDAO.updateSituationDate(id, date);
+    public Event updateEvent(Event event){
+        return eventDAO.updateEvent(event.getId(), Date.valueOf(event.getSituationDate()));
     }
 }

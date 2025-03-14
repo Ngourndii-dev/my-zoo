@@ -20,9 +20,9 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<Review> create(@RequestBody Review review) {
-        Review savedReview = reviewService.insert(review);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedReview);
+    public ResponseEntity<Void> create(@RequestBody Review review) {
+        reviewService.insert(review);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping

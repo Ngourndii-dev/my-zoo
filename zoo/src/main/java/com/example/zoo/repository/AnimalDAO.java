@@ -119,7 +119,7 @@ public class AnimalDAO {
         }
         return animal;
     }
-    public Animal updateAnimal(int id, float price,String status) {
+    public void updateAnimal(int id, float price,String status) {
         String query = "UPDATE animal SET price = ? , status = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setFloat(1, price);
@@ -127,12 +127,11 @@ public class AnimalDAO {
             stmt.setInt(3, id);
             int rows = stmt.executeUpdate();
             if (rows > 0) {
-                return getById(id);
+                getById(id);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
     }
     public void delete(int id) {
         String query = "DELETE FROM animal WHERE id = ?";

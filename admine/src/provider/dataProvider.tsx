@@ -1,6 +1,6 @@
 import { fetchUtils, DataProvider } from 'react-admin';
 import jsonServerProvider from 'ra-data-json-server';
-import { CreateParams, CreateResult, GetOneParams, GetOneResult, GetListParams, GetListResult } from 'ra-core';
+import { CreateParams, CreateResult, GetOneParams, GetOneResult, GetListParams, GetListResult, UpdateParams, UpdateResult } from 'ra-core';
 
 const httpClient = fetchUtils.fetchJson;
 const dataProvider = jsonServerProvider('http://localhost:8080', httpClient);
@@ -84,12 +84,42 @@ const customDataProvider: DataProvider = {
         }
         return dataProvider.getOne(resource, params);
     },
-    getList: (resource: string, params: GetListParams): Promise<GetListResult> => {
-        const url = `http://localhost:8080/${resource}?${fetchUtils.queryParameters(params.filter)}`;
-        return httpClient(url).then(({ json }) => ({
-            data: json,
-            total: json.length,
-        }));
+    // getList: (resource: string, params: GetListParams): Promise<GetListResult> => {
+    //     const url = `http://localhost:8080/${resource}?${fetchUtils.queryParameters(params.filter)}`;
+    //     return httpClient(url).then(({ json }) => ({
+    //         data: json,
+    //         total: json.length,
+    //     }));
+    // },
+    update: (resource: string, params: UpdateParams): Promise<UpdateResult> => {
+        if (resource === 'animals') {
+            const url = 'http://localhost:8080/animals/update';
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(params.data),
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+            };
+            return httpClient(url, options).then(({ json }) => ({ data: json }));
+        }
+        else if(resource==='events'){
+          const url='http://localhost:8080/events/update';
+          const options = {
+            method: 'POST',
+            body: JSON.stringify(params.data),
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+        };
+        return httpClient(url, options).then(({ json }) => ({ data: json }));
+        }
+        else if(resource==='orders'){
+            const url='http://localhost:8080/orders/update';
+            const options = {
+              method: 'POST',
+              body: JSON.stringify(params.data),
+              headers: new Headers({ 'Content-Type': 'application/json' }),
+          };
+          return httpClient(url, options).then(({ json }) => ({ data: json }));
+          }
+        return dataProvider.update(resource, params);
     },
 };
 

@@ -46,10 +46,7 @@ export const OperationEdit = () => (
 );
 
 export const OperationCreate = () => (
-  <Create transform={(data) => ({
-    ...data,
-    animal: { id: data.animal }, 
-  })}>
+  <Create>
     <SimpleForm>
       <NumberInput source="price" validate={[required()]} min={0} />
       <ReferenceInput source="animal" reference="animals">

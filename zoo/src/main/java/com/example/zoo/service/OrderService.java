@@ -21,10 +21,7 @@ public class OrderService {
     public Orders getById(int id) {
         return ordersDAO.getById(id);
     }
-    public Orders updateStatus(int id, String status){
-        return ordersDAO.updateStatus(id, status);
-    }
-    public Orders updateOrderDate(int id, java.sql.Date date){
-        return ordersDAO.updateOrderDate(id, date);
+    public Orders updateStatus(Orders orders){
+        return ordersDAO.updateStatus(orders.getId(),orders.getStatus(),orders.getOrderDate());
     }
 }

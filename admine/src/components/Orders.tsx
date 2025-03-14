@@ -37,20 +37,13 @@ export const OrdersList = () => (
 export const OrdersEdit = () => (
   <Edit>
     <SimpleForm>
-      <NumberInput source="id" disabled />
+      <NumberField source="id" />
       <DateInput source="orderDate" validate={[required()]} />
       <SelectInput source="status" choices={[ 
         { id: 'append', name: 'Append' },
         { id: 'available', name: 'Available' },
         { id: 'unavailable', name: 'Unavailable' }
       ]} />
-      <NumberInput source="quantity" validate={[required()]} min={1} />
-      <ReferenceInput source="client.id" reference="clients">
-        <SelectInput optionText="clientName" validate={[required()]} />
-      </ReferenceInput>
-      <ReferenceInput source="animal.id" reference="animals">
-        <SelectInput optionText="animalTemplate.name" validate={[required()]} />
-      </ReferenceInput>
     </SimpleForm>
   </Edit>
 );

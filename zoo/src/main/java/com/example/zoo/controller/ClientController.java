@@ -20,9 +20,9 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<Client> create(@RequestBody Client client) {
-        Client client1=clientService.insert(client);
-        return  ResponseEntity.ok(client1);
+    public ResponseEntity<Void> create(@RequestBody Client client) {
+        clientService.insert(client);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping

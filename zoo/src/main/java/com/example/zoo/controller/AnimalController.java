@@ -4,6 +4,7 @@ import com.example.zoo.model.*;
 import com.example.zoo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,10 @@ import java.util.Map;
 public class AnimalController {
     @Autowired
     private AnimalService animalService;
-
     @PostMapping
-    public ResponseEntity<Animal> create(@RequestBody Animal animal) {
-        Animal createdAnimal = animalService.insert(animal);
-        return ResponseEntity.ok(createdAnimal);
+    public ResponseEntity<Void> create(@RequestBody Animal animal) {
+        animalService.insert(animal);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
@@ -48,10 +48,10 @@ public class AnimalController {
         return ResponseEntity.ok().headers(headers).body(Map.of("data", animal));
     }
 
-    @PutMapping("/{id}/update")
-    public ResponseEntity<Animal> updateStatus(@PathVariable int id, @RequestBody Animal animal) {
-        Animal updatedAnimal = animalService.updateAnimal(id, animal);
-        return ResponseEntity.ok(updatedAnimal);
+    @PostMapping("/update")
+    public ResponseEntity<Void> updateStatus(@RequestBody Animal animal) {
+        animalService.updateAnimal(animal);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {

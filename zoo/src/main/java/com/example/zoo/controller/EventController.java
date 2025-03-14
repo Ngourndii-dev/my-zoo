@@ -5,6 +5,7 @@ import com.example.zoo.service.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,9 @@ public class EventController {
     private final EventService eventService;
 
     @PostMapping
-    public ResponseEntity<Event> create(@RequestBody Event event) {
-        Event event1=eventService.insert(event);
-        return ResponseEntity.ok(event1);
+    public ResponseEntity<Void> create(@RequestBody Event event) {
+        eventService.insert(event);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
@@ -37,15 +38,21 @@ public class EventController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {
         Event event = eventService.getById(id);
+
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", "1");
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
+
         return ResponseEntity.ok().headers(headers).body(Map.of("data", event));
     }
 
-    @PutMapping("/{id}/{date}")
-    public ResponseEntity<Event> updateSituationDate(@PathVariable int id, @PathVariable Date date) {
-        Event updatedEvent = eventService.updateSituationDate(id, date);
-        return ResponseEntity.ok(updatedEvent);
+    @PostMapping("/update")
+    public ResponseEntity<Event> updateSituationDate(@RequestBody Event event) {
+        Event updatedEvent = eventService.updateEvent(event);
+        return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
     }
 }

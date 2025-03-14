@@ -24,8 +24,8 @@ public class AnimalService {
     public Animal getById(int id) {
         return animalDAO.getById(id);
     }
-    public Animal updateAnimal(int id,Animal animal) {
-        return animalDAO.updateAnimal(id, animal.getPrice(), animal.getStatus());
+    public void updateAnimal(Animal animal) {
+        animalDAO.updateAnimal(animal.getId(), animal.getPrice(), animal.getStatus());
     }
     public void delete(int id){
         animalDAO.delete(id);
