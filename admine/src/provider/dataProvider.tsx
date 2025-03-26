@@ -1,125 +1,103 @@
 import { fetchUtils, DataProvider } from 'react-admin';
-import jsonServerProvider from 'ra-data-json-server';
-import { CreateParams, CreateResult, GetOneParams, GetOneResult, GetListParams, GetListResult, UpdateParams, UpdateResult } from 'ra-core';
 
 const httpClient = fetchUtils.fetchJson;
-const dataProvider = jsonServerProvider('http://localhost:8080', httpClient);
 
 const customDataProvider: DataProvider = {
-    ...dataProvider,
-    create: (resource: string, params: CreateParams): Promise<CreateResult> => {
-        if (resource === 'animals') {
-            const url = 'http://localhost:8080/animals';
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params.data),
-                headers: new Headers({ 'Content-Type': 'application/json' }),
+    getList: (resource, params) => {
+        const url = `http://localhost:8080/${resource}`;
+        console.log(`Fetching getList for resource: ${resource}, URL: ${url}`);
+        return httpClient(url).then(({ headers, json }) => {
+            console.log(`getList response for ${resource}:`, json);
+            return {
+                data: json.map((item: any) => ({
+                    ...item,
+                    id: item.id,
+                    species: item.species || item.espèce
+                })),
+                total: parseInt(headers.get('X-Total-Count') || '0', 10),
             };
-            return httpClient(url, options).then(({ json }) => ({ data: json }));
-        } else if (resource === 'animal-templates') {
-            const url = 'http://localhost:8080/animal-templates';
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params.data),
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-            };
-            return httpClient(url, options).then(({ json }) => ({ data: json }));
-        } else if (resource === 'clients') {
-            const url = 'http://localhost:8080/clients';
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params.data),
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-            };
-            return httpClient(url, options).then(({ json }) => ({ data: json }));
-        } else if (resource === 'events') {
-            const url = 'http://localhost:8080/events';
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params.data),
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-            };
-            return httpClient(url, options).then(({ json }) => ({ data: json }));
-        } else if (resource === 'operations') {
-            const url = 'http://localhost:8080/operations';
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params.data),
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-            };
-            return httpClient(url, options).then(({ json }) => ({ data: json }));
-        } else if (resource === 'reviews') {
-            const url = 'http://localhost:8080/reviews';
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params.data),
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-            };
-            return httpClient(url, options).then(({ json }) => ({ data: json }));
-        }
-        return dataProvider.create(resource, params);
+        }).catch(error => {
+            console.error(`Error fetching ${resource}:`, error);
+            throw error;
+        });
     },
-    getOne: (resource: string, params: GetOneParams): Promise<GetOneResult> => {
-        if (resource === 'animals') {
-            const url = `http://localhost:8080/animals/${params.id}`;
-            return httpClient(url).then(({ json }) => ({ data: json.data }));
-        } else if (resource === 'animal-templates') {
-            const url = `http://localhost:8080/animal-templates/${params.id}`;
-            return httpClient(url).then(({ json }) => ({ data: json.data }));
-        } else if (resource === 'clients') {
-            const url = `http://localhost:8080/clients/${params.id}`;
-            return httpClient(url).then(({ json }) => ({ data: json.data }));
-        } else if (resource === 'events') {
-            const url = `http://localhost:8080/events/${params.id}`;
-            return httpClient(url).then(({ json }) => ({ data: json.data }));
-        } else if (resource === 'operations') {
-            const url = `http://localhost:8080/operations/${params.id}`;
-            return httpClient(url).then(({ json }) => ({ data: json.data }));
-        } else if (resource === 'orders') {
-            const url = `http://localhost:8080/orders/${params.id}`;
-            return httpClient(url).then(({ json }) => ({ data: json.data }));
-        } else if (resource === 'reviews') {
-            const url = `http://localhost:8080/reviews/${params.id}`;
-            return httpClient(url).then(({ json }) => ({ data: json.data }));
-        }
-        return dataProvider.getOne(resource, params);
+
+    getOne: (resource, params) =>
+        httpClient(`http://localhost:8080/${resource}/${params.id}`).then(({ json }) => ({
+            data: {
+                ...json,
+                species: json.species || json.espèce
+            }
+        })),
+
+    getMany: (resource, params) => {
+        const query = params.ids.map(id => `id=${id}`).join('&');
+        const url = `http://localhost:8080/${resource}?${query}`;
+        return httpClient(url).then(({ json }) => ({
+            data: json.map((item: any) => ({
+                ...item,
+                species: item.species || item.espèce
+            }))
+        }));
     },
-    // getList: (resource: string, params: GetListParams): Promise<GetListResult> => {
-    //     const url = `http://localhost:8080/${resource}?${fetchUtils.queryParameters(params.filter)}`;
-    //     return httpClient(url).then(({ json }) => ({
-    //         data: json,
-    //         total: json.length,
-    //     }));
-    // },
-    update: (resource: string, params: UpdateParams): Promise<UpdateResult> => {
-        if (resource === 'animals') {
-            const url = 'http://localhost:8080/animals/update';
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(params.data),
-                headers: new Headers({ 'Content-Type': 'application/json' }),
-            };
-            return httpClient(url, options).then(({ json }) => ({ data: json }));
-        }
-        else if(resource==='events'){
-          const url='http://localhost:8080/events/update';
-          const options = {
+
+    getManyReference: (resource, params) => {
+        const url = `http://localhost:8080/${resource}?${params.target}=${params.id}`;
+        return httpClient(url).then(({ headers, json }) => ({
+            data: json.map((item: any) => ({
+                ...item,
+                species: item.species || item.espèce
+            })),
+            total: parseInt(headers.get('X-Total-Count') || '0', 10),
+        }));
+    },
+
+    create: (resource, params) => {
+        const data = resource === 'animals' 
+            ? { ...params.data, animalTemplate: { id: params.data.animalTemplate.id } }
+            : params.data;
+        return httpClient(`http://localhost:8080/${resource}`, {
             method: 'POST',
-            body: JSON.stringify(params.data),
+            body: JSON.stringify(data),
             headers: new Headers({ 'Content-Type': 'application/json' }),
-        };
-        return httpClient(url, options).then(({ json }) => ({ data: json }));
-        }
-        else if(resource==='orders'){
-            const url='http://localhost:8080/orders/update';
-            const options = {
-              method: 'POST',
-              body: JSON.stringify(params.data),
-              headers: new Headers({ 'Content-Type': 'application/json' }),
-          };
-          return httpClient(url, options).then(({ json }) => ({ data: json }));
-          }
-        return dataProvider.update(resource, params);
+        }).then(({ json }) => ({
+            data: { ...params.data, id: json.id }
+        }));
+    },
+
+    update: (resource, params) => {
+        const url = `http://localhost:8080/${resource}/${params.id}`;
+        console.log(`Updating resource: ${resource}, ID: ${params.id}, Data:`, params.data);
+        const dataToSend = resource === 'animals'
+            ? { ...params.data, animalTemplate: { id: params.data.animalTemplate.id } }
+            : params.data;
+
+        return httpClient(url, {
+            method: 'PUT',
+            body: JSON.stringify(dataToSend),
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+        }).then(({ json }) => {
+            console.log(`Update response for ${resource}:`, json);
+            const transformedData = ['animals', 'animal-templates'].includes(resource)
+                ? { ...json, species: json.species || json.espèce }
+                : json;
+            return { data: transformedData };
+        }).catch(error => {
+            console.error(`Error updating ${resource}:`, error);
+            throw error;
+        });
+    },
+
+    delete: (resource, params) =>
+        httpClient(`http://localhost:8080/${resource}/${params.id}`, {
+            method: 'DELETE',
+        }).then(() => ({ data: params.previousData })),
+
+    deleteMany: (resource, params) => {
+        const query = params.ids.map(id => `id=${id}`).join('&');
+        return httpClient(`http://localhost:8080/${resource}?${query}`, {
+            method: 'DELETE',
+        }).then(() => ({ data: params.ids }));
     },
 };
 

@@ -9,25 +9,30 @@ import java.util.List;
 
 @Service
 public class AnimalService {
+    private final AnimalDAO animalDAO;
 
     @Autowired
-    private AnimalDAO animalDAO;
+    public AnimalService(AnimalDAO animalDAO) {
+        this.animalDAO = animalDAO;
+    }
+
     public Animal insert(Animal animal) {
         return animalDAO.insert(animal);
     }
+
     public List<Animal> findAll() {
         return animalDAO.findAll();
     }
-    public List<Animal> findAllByClient() {
-        return animalDAO.findAllByClient();
-    }
+
     public Animal getById(int id) {
         return animalDAO.getById(id);
     }
-    public void updateAnimal(Animal animal) {
-        animalDAO.updateAnimal(animal.getId(), animal.getPrice(), animal.getStatus());
+
+    public Animal updateAnimal(Animal animal) {
+        return animalDAO.updateAnimal(animal.getId(), animal.getPrice(), animal.getStatus());
     }
-    public void delete(int id){
+
+    public void delete(int id) {
         animalDAO.delete(id);
     }
 }

@@ -16,6 +16,7 @@ public class EventDAO {
     @Autowired
     private Connection connection;
     private AnimalDAO animalDAO;
+
     public Event insert(Event event) {
         String query = "INSERT INTO event(id_animal, image, situation_date, description_event) VALUES (?, ?, ?, ?)";
 

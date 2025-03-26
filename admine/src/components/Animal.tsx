@@ -34,18 +34,30 @@ export const AnimalList = () => (
 );
 
 export const AnimalEdit = () => (
-  <Edit>
+  <Edit mutationMode="pessimistic">
     <SimpleForm>
-      <NumberField source="id" />
-      <NumberInput source="price" />
+      <TextInput source="id" disabled />
+      <ReferenceInput source="animalTemplate.id" reference="animal_templates">
+        <SelectInput optionText="name" disabled />
+      </ReferenceInput>
+      <TextInput source="sex" disabled />
+      <TextInput source="origin" disabled />
+      <NumberInput source="price" validate={[required()]} />
+      <NumberInput source="rent" validate={[required()]} />
       <SelectInput
         source="status"
         choices={[
           { id: 'available', name: 'Available' },
-          { id: 'unavailable', name: 'Unavailable' }
+          { id: 'unavailable', name: 'Unavailable' },
+          { id: 'disponible', name: 'Disponible' },
+          { id: 'indisponible', name: 'Indisponible' }
         ]}
         validate={[required()]}
       />
+      <TextInput source="color" disabled />
+      <ImageInput source="imageUrl" label="Animal Image" accept="image/*">
+        <ImageField source="src" title="title" />
+      </ImageInput>
     </SimpleForm>
   </Edit>
 );
@@ -53,7 +65,7 @@ export const AnimalEdit = () => (
 export const AnimalCreate = () => (
   <Create>
     <SimpleForm>
-      <ReferenceInput source="id_animal_template" reference="animal_templates" label="Template">
+      <ReferenceInput source="animalTemplate.id" reference="animal-templates">
         <SelectInput optionText="name" validate={[required()]} />
       </ReferenceInput>
       <SelectInput
@@ -65,8 +77,8 @@ export const AnimalCreate = () => (
         validate={[required()]}
       />
       <TextInput source="origin" validate={[required()]} />
-      <NumberInput source="price" />
-      <NumberInput source="rent" />
+      <NumberInput source="price" validate={[required()]} />
+      <NumberInput source="rent" validate={[required()]} />
       <SelectInput
         source="status"
         choices={[
@@ -76,9 +88,7 @@ export const AnimalCreate = () => (
         validate={[required()]}
       />
       <TextInput source="color" validate={[required()]} />
-      <ImageInput source="imageUrl" label="Animal Image">
-        <ImageField source="src" />
-      </ImageInput>
+      <TextInput source="imageUrl" label="Animal Image URL" validate={[required()]} />
     </SimpleForm>
   </Create>
 );

@@ -22,8 +22,9 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody Event event) {
+        System.out.println("Received event: " + event);
         eventService.insert(event);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED); // Utilisez HttpStatus.CREATED pour indiquer que la ressource a été créée
     }
 
     @GetMapping
@@ -38,7 +39,6 @@ public class EventController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {
         Event event = eventService.getById(id);
-
         if (event == null) {
             return ResponseEntity.notFound().build();
         }

@@ -42,19 +42,19 @@ export const EventEdit = () => (
   </Edit>
 );
 
+
 export const EventCreate = () => (
   <Create>
     <SimpleForm>
-      <ReferenceInput source="animal.id" reference="animals">
-        <SelectInput optionText="animalTemplate.id" validate={[required()]} />
+      <ReferenceInput source="animal" reference="animals">
+        <SelectInput optionText="id"/>
       </ReferenceInput>
-      <TextInput source="image" validate={[required()]} />
-      <DateInput source="situationDate" validate={[required()]} />
+      <TextInput source="image"/>
+      <DateInput source="situationDate"/>
       <TextInput source="descriptionEvent" multiline />
     </SimpleForm>
   </Create>
 );
-
 export const EventShow = () => (
   <Show>
     <SimpleShowLayout>

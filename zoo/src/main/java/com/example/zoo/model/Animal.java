@@ -1,5 +1,7 @@
 package com.example.zoo.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
@@ -30,5 +32,9 @@ public class Animal {
         this.status = status;
         this.color = color;
         this.imageUrl=imageUrl;
+    }
+    @JsonCreator
+    public Animal(@JsonProperty("id") int id) {
+        this.id = id;
     }
 }

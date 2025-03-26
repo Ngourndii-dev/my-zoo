@@ -10,16 +10,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
 @RestController
 @RequestMapping("/animals")
 public class AnimalController {
+    private final AnimalService animalService;
+
     @Autowired
-    private AnimalService animalService;
+    public AnimalController(AnimalService animalService) {
+        this.animalService = animalService;
+    }
+
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody Animal animal) {
-        animalService.insert(animal);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Animal> create(@RequestBody Animal animal) {
+        Animal created = animalService.insert(animal);
+        return ResponseEntity.ok(created);
     }
 
     @GetMapping
@@ -30,33 +34,23 @@ public class AnimalController {
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
         return ResponseEntity.ok().headers(headers).body(animals);
     }
-    @GetMapping("/client")
-    public ResponseEntity<List<Animal>> findAllByClient() {
-        List<Animal> animals = animalService.findAllByClient();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", String.valueOf(animals.size()));
-        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-        return ResponseEntity.ok().headers(headers).body(animals);
-    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {
+    public ResponseEntity<Animal> getById(@PathVariable int id) {
         Animal animal = animalService.getById(id);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", "1");
-        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-        return ResponseEntity.ok().headers(headers).body(Map.of("data", animal));
+        return ResponseEntity.ok(animal);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Void> updateStatus(@RequestBody Animal animal) {
-        animalService.updateAnimal(animal);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Animal> update(@PathVariable int id, @RequestBody Animal animal) {
+        animal.setId(id);
+        Animal updated = animalService.updateAnimal(animal);
+        return ResponseEntity.ok(updated);
     }
-    @DeleteMapping("{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         animalService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

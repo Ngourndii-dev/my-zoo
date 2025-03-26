@@ -3,7 +3,6 @@ package com.example.zoo.service;
 import com.example.zoo.model.*;
 import com.example.zoo.repository.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +10,12 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class AnimalTemplateService {
-    @Autowired
-    private AnimalTemplateDAO animalTemplateDAO;
+    private final AnimalTemplateDAO animalTemplateDAO;
 
     public AnimalTemplate insert(AnimalTemplate animalTemplate) {
+        if (animalTemplate == null) {
+            throw new IllegalArgumentException("AnimalTemplate cannot be null");
+        }
         return animalTemplateDAO.insert(animalTemplate);
     }
 
@@ -22,10 +23,11 @@ public class AnimalTemplateService {
         return animalTemplateDAO.findAll();
     }
 
+    public List<Integer> findAllId() {
+        return animalTemplateDAO.findAllId();
+    }
+
     public AnimalTemplate getById(int id) {
         return animalTemplateDAO.getById(id);
-    }
-    public void delete(int id){
-        animalTemplateDAO.delete(id);
     }
 }

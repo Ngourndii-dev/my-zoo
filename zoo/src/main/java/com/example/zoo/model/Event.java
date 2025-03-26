@@ -17,7 +17,6 @@ public class Event {
     public Event(){
 
 }
-
     public Event(Animal animal, String image, LocalDate situationDate,String descriptionEvent) {
         this.animal = animal;
         this.image = image;

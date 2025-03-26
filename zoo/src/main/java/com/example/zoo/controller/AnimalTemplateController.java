@@ -1,30 +1,25 @@
 package com.example.zoo.controller;
 
 import com.example.zoo.model.AnimalTemplate;
-import com.example.zoo.model.Review;
 import com.example.zoo.service.AnimalTemplateService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/animal-templates")
 @AllArgsConstructor
 public class AnimalTemplateController {
-    @Autowired
     private final AnimalTemplateService animalTemplateService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody AnimalTemplate animalTemplate) {
-        animalTemplateService.insert(animalTemplate);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<AnimalTemplate> create(@RequestBody AnimalTemplate animalTemplate) {
+        AnimalTemplate created = animalTemplateService.insert(animalTemplate);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
@@ -36,18 +31,21 @@ public class AnimalTemplateController {
         return ResponseEntity.ok().headers(headers).body(templates);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {
-        AnimalTemplate template = animalTemplateService.getById(id);
+    @GetMapping("/allId")
+    public ResponseEntity<List<Integer>> findAllId() {
+        List<Integer> ids = animalTemplateService.findAllId();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", "1");
+        headers.add("X-Total-Count", String.valueOf(ids.size()));
         headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-        return ResponseEntity.ok().headers(headers).body(Map.of("data", template));
-    }
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
-        animalTemplateService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().headers(headers).body(ids);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AnimalTemplate> getById(@PathVariable int id) {
+        AnimalTemplate template = animalTemplateService.getById(id);
+        if (template == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(template);
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.zoo.repository;
+
 import com.example.zoo.model.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -10,77 +10,82 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
- 
+
 @Repository
 @AllArgsConstructor
 public class AnimalTemplateDAO {
-    @Autowired
-    private Connection connection;
-    public AnimalTemplate insert(AnimalTemplate animalTemplate){
-        try {
-            String query = "INSERT INTO animal_template (name,species,image_url) VALUES (?,?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1,animalTemplate.getName());
+    private final Connection connection;
+
+    public AnimalTemplate insert(AnimalTemplate animalTemplate) {
+        String query = "INSERT INTO animal_template (name, species, image_url) VALUES (?, ?, ?) RETURNING *";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, animalTemplate.getName());
             statement.setString(2, animalTemplate.getSpecies());
             statement.setString(3, animalTemplate.getImageUrl());
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return new AnimalTemplate(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("species"),
+                        rs.getString("image_url")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error inserting animal template", e);
         }
-        return animalTemplate;
+        return null;
     }
+
     public List<AnimalTemplate> findAll() {
         List<AnimalTemplate> animalTemplateList = new ArrayList<>();
-        try {
-            String query = "SELECT * FROM animal_template";
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
+        String query = "SELECT * FROM animal_template";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                AnimalTemplate animalTemplate = new AnimalTemplate(
+                animalTemplateList.add(new AnimalTemplate(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("species"),
+                        resultSet.getString("image_url")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching all animal templates", e);
+        }
+        return animalTemplateList;
+    }
+
+    public List<Integer> findAllId() {
+        List<Integer> idList = new ArrayList<>();
+        String query = "SELECT id FROM animal_template";
+        try (PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                idList.add(rs.getInt("id"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching animal template IDs", e);
+        }
+        return idList;
+    }
+
+    public AnimalTemplate getById(int id) {
+        String query = "SELECT * FROM animal_template WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new AnimalTemplate(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getString("species"),
                         resultSet.getString("image_url")
                 );
-                animalTemplateList.add(animalTemplate);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return animalTemplateList;
-    }
-    public AnimalTemplate getById(int id) {
-        AnimalTemplate animalTemplate = new AnimalTemplate();
-        try {
-            String query = "SELECT * FROM animal_template WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                animalTemplate.setId(resultSet.getInt("id"));
-                animalTemplate.setName(resultSet.getString("name"));
-                animalTemplate.setSpecies(resultSet.getString("species"));
-                animalTemplate.setImageUrl(resultSet.getString("image_url"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return animalTemplate;
-    }
-    public void delete(int id) {
-        String query = "DELETE FROM animal_template WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            int rows = statement.executeUpdate();
-            if (rows > 0) {
-                System.out.println("Deletion successful.");
             }
         } catch (SQLException e) {
-            System.err.println("Error during deletion: " + e.getMessage());
+            throw new RuntimeException("Error fetching animal template by ID", e);
         }
+        return null;
     }
 }
-
-
-
