@@ -4,8 +4,8 @@ import { MoonIcon, SunIcon } from '@heroicons/react/24/solid';
 
 const RegisterClientForm: React.FC = () => {
   const [client, setClient] = useState<Client>({
-    client_name: '',
-    phone_number: '',
+    clientName: '',
+    phoneNumber: '',
     email: '',
   });
 
@@ -21,25 +21,30 @@ const RegisterClientForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     try {
-      const response = await fetch('http://localhost:3000/client', {
+      const response = await fetch('http://localhost:8080/clients', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(client),
       });
-
+  
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(`Network response was not ok (status: ${response.status})`);
       }
-
-      const result = await response.json();
+  
+      const text = await response.text(); // Lire la réponse en texte brut
+      console.log("Raw response:", text); // Debug: voir la réponse brute
+  
+      const result = text ? JSON.parse(text) : {}; // Parser seulement si non vide
       console.log('Client registered:', result);
     } catch (error) {
       console.error('Error registering client:', error);
     }
   };
+  
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
@@ -61,7 +66,7 @@ const RegisterClientForm: React.FC = () => {
             </button>
         </h2>
 
-        {['client_name', 'phone_number', 'email'].map((field, index) => (
+        {['clientName', 'phoneNumber', 'email'].map((field, index) => (
           <div key={index} className="mb-6">
             <label
               className="block text-sm font-semibold mb-2 transition-all duration-300 transform hover:scale-105 hover:text-blue-500 dark:hover:text-blue-400"

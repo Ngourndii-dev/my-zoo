@@ -26,7 +26,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ animalId, onClose }) => {
         order_date: orderDate,
         quantity,
         id_client: idClient,
-        id_animal: animalId, // Utilisation directe de l'ID de l'animal
+        id_animal: animalId,
       };
 
       try {
