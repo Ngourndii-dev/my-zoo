@@ -47,8 +47,8 @@ CREATE TABLE client (
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     order_date DATE NOT NULL,
-    status VARCHAR(50) CHECK (status IN ('append', 'available', 'unavailable')),
-    quantity int not null,
+    status VARCHAR(50) CHECK (status IN ('append', 'available', 'unavailable')) DEFAULT 'unavailable',
+    quantity INT NOT NULL,
     id_client INT REFERENCES client(id),
     id_animal INT REFERENCES animal(id)
 );

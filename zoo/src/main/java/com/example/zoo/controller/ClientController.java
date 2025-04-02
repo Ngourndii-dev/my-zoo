@@ -1,6 +1,7 @@
 package com.example.zoo.controller;
 
 import com.example.zoo.model.Client;
+import com.example.zoo.model.Event;
 import com.example.zoo.service.ClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,9 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody Client client) {
-        clientService.insert(client);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Client> create(@RequestBody Client client) {
+        Client client1= clientService.insert(client);
+        return new ResponseEntity<>(client1, HttpStatus.CREATED);
     }
 
     @GetMapping

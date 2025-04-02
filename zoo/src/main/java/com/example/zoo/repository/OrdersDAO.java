@@ -21,13 +21,12 @@ public class OrdersDAO {
     private ClientDAO clientDAO;
     public Orders insert(Orders orders) {
         try {
-            String query = "INSERT INTO orders (order_date, status, quantity, id_client, id_animal) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO orders (order_date, quantity, id_client, id_animal) VALUES (?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setDate(1, orders.getOrderDate());
-            statement.setString(2, orders.getStatus());
-            statement.setInt(3, orders.getQuantity());
-            statement.setInt(4, orders.getClient().getId());
-            statement.setInt(5, orders.getAnimal().getId());
+            statement.setInt(2, orders.getQuantity());
+            statement.setInt(3, orders.getClient().getId());
+            statement.setInt(4, orders.getAnimal().getId());
             statement.executeUpdate();
 
         } catch (Exception e) {
