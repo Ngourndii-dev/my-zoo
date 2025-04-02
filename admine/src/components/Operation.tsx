@@ -5,7 +5,6 @@ import {
   Show,
   SimpleForm,
   TextInput,
-  required,
   Datagrid,
   TextField,
   SimpleShowLayout,
@@ -17,6 +16,7 @@ import {
   NumberField,
   DateField,
 } from 'react-admin';
+
 export const OperationList = () => (
   <List>
     <Datagrid rowClick="show">
@@ -35,12 +35,12 @@ export const OperationEdit = () => (
   <Edit>
     <SimpleForm>
       <NumberInput source="id" disabled />
-      <NumberInput source="price" validate={[required()]} min={0} />
-      <ReferenceInput source="animal.id" reference="animals" validate={[required()]}>
+      <NumberInput source="price" />
+      <ReferenceInput source="animal.id" reference="animals">
         <SelectInput optionText="animalTemplate.name" />
       </ReferenceInput>
       <DateInput source="operationDate" />
-      <TextInput source="operationType" validate={[required()]} />
+      <TextInput source="operationType" />
     </SimpleForm>
   </Edit>
 );
@@ -48,15 +48,18 @@ export const OperationEdit = () => (
 export const OperationCreate = () => (
   <Create>
     <SimpleForm>
-      <NumberInput source="price" validate={[required()]} min={0} />
-      <ReferenceInput source="animal" reference="animals">
-        <SelectInput optionText="animalTemplate.name" validate={[required()]} />
+      <NumberInput source="price" min={0} />
+      <ReferenceInput source="animal.id" reference="animals">
+        <SelectInput 
+          optionText={(record) => `${record.animalTemplate.name} (${record.id})`} 
+        />
       </ReferenceInput>
-      <DateInput source="operationDate" validate={[required()]} />
-      <TextInput source="operationType" validate={[required()]} />
+      <DateInput source="operationDate" />
+      <TextInput source="operationType" />
     </SimpleForm>
   </Create>
 );
+
 export const OperationShow = () => (
   <Show>
     <SimpleShowLayout>

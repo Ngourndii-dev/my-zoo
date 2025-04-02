@@ -28,7 +28,7 @@ const customDataProvider: DataProvider = {
                 ...json,
                 species: json.species || json.espèce
             }
-        })),
+    })),
 
     getMany: (resource, params) => {
         const query = params.ids.map(id => `id=${id}`).join('&');
@@ -53,17 +53,23 @@ const customDataProvider: DataProvider = {
     },
 
     create: (resource, params) => {
-        const data = resource === 'animals' 
-            ? { ...params.data, animalTemplate: { id: params.data.animalTemplate.id } }
-            : params.data;
+        let data = params.data;
+        
+        if (resource === 'animals') {
+            data = { ...params.data, animalTemplate: { id: params.data.animalTemplate.id } };
+        } else if (resource === 'operations') {
+            data = { ...params.data, animal: { id: params.data.animal.id } };
+        }
+        
         return httpClient(`http://localhost:8080/${resource}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: new Headers({ 'Content-Type': 'application/json' }),
         }).then(({ json }) => ({
-            data: { ...params.data, id: json.id }
+            data: { ...params.data, id: json.id },
         }));
     },
+    
 
     update: (resource, params) => {
         const url = `http://localhost:8080/${resource}/${params.id}`;

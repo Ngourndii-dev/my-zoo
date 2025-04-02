@@ -5,66 +5,68 @@ import {
   Show,
   SimpleForm,
   TextInput,
-  required,
   Datagrid,
   TextField,
-  SimpleShowLayout,
   ReferenceField,
   ReferenceInput,
   SelectInput,
   DateInput,
   ImageField,
   NumberField,
-  NumberInput,
   DateField,
 } from 'react-admin';
 
 export const EventList = () => (
   <List>
-    <Datagrid rowClick="show">
-      <NumberField source="id" />
-      <ReferenceField source="animal.id" reference="animals">
+    <Datagrid rowClick="edit">
+      <NumberField source="id" label="Identifiant" />
+      <ReferenceField source="animal.id" reference="animals" label="Animal">
         <TextField source="animalTemplate.name" />
       </ReferenceField>
-      <ImageField source="image" />
-      <DateField source="situationDate" />
-      <TextField source="descriptionEvent" />
+      <ImageField source="image" label="Image" />
+      <DateField source="situationDate" label="Date de la situation" />
+      <TextField source="descriptionEvent" label="Description de l'événement" />
     </Datagrid>
   </List>
 );
 
 export const EventEdit = () => (
-  <Edit>
+  <Edit mutationMode="pessimistic">
     <SimpleForm>
-      <NumberField source="id" />
-      <DateInput source="situationDate" />
+      <TextInput source="id" disabled label="Identifiant" />
+      <ReferenceInput source="animal.id" reference="animals" label="Animal">
+        <SelectInput optionText="animalTemplate.name" />
+      </ReferenceInput>
+      <TextInput source="image" label="Image (URL)" />
+      <DateInput source="situationDate" label="Date de la situation" />
+      <TextInput source="descriptionEvent" multiline label="Description de l'événement" />
     </SimpleForm>
   </Edit>
 );
 
-
 export const EventCreate = () => (
   <Create>
     <SimpleForm>
-      <ReferenceInput source="animal" reference="animals">
-        <SelectInput optionText="id"/>
+      <ReferenceInput source="animal.id" reference="animals" label="Animal">
+        <SelectInput optionText="animalTemplate.name" />
       </ReferenceInput>
-      <TextInput source="image"/>
-      <DateInput source="situationDate"/>
-      <TextInput source="descriptionEvent" multiline />
+      <TextInput source="image" label="Image (URL)" />
+      <DateInput source="situationDate" label="Date de la situation" />
+      <TextInput source="descriptionEvent" multiline label="Description de l'événement" />
     </SimpleForm>
   </Create>
 );
+
 export const EventShow = () => (
   <Show>
-    <SimpleShowLayout>
-      <NumberField source="id" />
-      <ReferenceField source="animal.id" reference="animals">
-        <TextField source="animalTemplate.id" />
+    <SimpleForm>
+      <NumberField source="id" label="Identifiant" />
+      <ReferenceField source="animal.id" reference="animals" label="Animal">
+        <TextField source="animalTemplate.name" />
       </ReferenceField>
-      <ImageField source="image" />
-      <DateField source="situationDate" />
-      <TextField source="descriptionEvent" />
-    </SimpleShowLayout>
+      <ImageField source="image" label="Image" />
+      <DateField source="situationDate" label="Date de la situation" />
+      <TextField source="descriptionEvent" label="Description de l'événement" />
+    </SimpleForm>
   </Show>
 );
