@@ -3,28 +3,23 @@ package com.example.zoo.controller;
 import com.example.zoo.model.Event;
 import com.example.zoo.service.EventService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/events")
 @AllArgsConstructor
 public class EventController {
-    @Autowired
     private final EventService eventService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody Event event) {
-        System.out.println("Received event: " + event);
-        eventService.insert(event);
-        return new ResponseEntity<>(HttpStatus.CREATED); // Utilisez HttpStatus.CREATED pour indiquer que la ressource a été créée
+    public ResponseEntity<Event> create(@RequestBody Event event) {
+        Event createdEvent = eventService.insert(event);
+        return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -37,22 +32,24 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {
+    public ResponseEntity<Event> getById(@PathVariable int id) {
         Event event = eventService.getById(id);
         if (event == null) {
             return ResponseEntity.notFound().build();
         }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", "1");
-        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-
-        return ResponseEntity.ok().headers(headers).body(Map.of("data", event));
+        return ResponseEntity.ok(event);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<Event> updateSituationDate(@RequestBody Event event) {
-        Event updatedEvent = eventService.updateEvent(event);
-        return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Event> update(@PathVariable int id, @RequestBody Event event) {
+        event.setId(id);
+        Event updatedEvent = eventService.update(event);
+        return ResponseEntity.ok(updatedEvent);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        eventService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

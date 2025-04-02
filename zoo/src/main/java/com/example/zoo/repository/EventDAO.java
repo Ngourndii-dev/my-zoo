@@ -1,4 +1,5 @@
 package com.example.zoo.repository;
+
 import com.example.zoo.model.Event;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
- 
 
 @Repository
 @AllArgsConstructor
-
 public class EventDAO {
     @Autowired
     private Connection connection;
@@ -36,27 +35,23 @@ public class EventDAO {
                 throw new SQLException("Insertion de l'événement échouée, aucune ligne affectée.");
             }
 
-            // Récupérer l'ID généré
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    event.setId(generatedKeys.getInt(1)); // Assigne l'ID généré à l'objet Event
+                    event.setId(generatedKeys.getInt(1));
                 } else {
                     throw new SQLException("Échec de la récupération de l'ID généré.");
                 }
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("Erreur lors de l'insertion de l'événement : " + e.getMessage());
         }
-
         return event;
     }
 
     public List<Event> findAll() {
         List<Event> eventList = new ArrayList<>();
         try {
-            String query = "SELECT * FROM event WHERE situation_date < NOW()";
+            String query = "SELECT * FROM event";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
@@ -69,8 +64,8 @@ public class EventDAO {
                 event.setDescriptionEvent(resultSet.getString("description_event"));
                 eventList.add(event);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la récupération des événements : " + e.getMessage());
         }
         return eventList;
     }
@@ -91,27 +86,40 @@ public class EventDAO {
                 event.setSituationDate(resultSet.getDate("situation_date").toLocalDate());
                 event.setDescriptionEvent(resultSet.getString("description_event"));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la récupération de l'événement : " + e.getMessage());
         }
         return event;
     }
 
-    public Event updateEvent(int id, Date date) {
-        Event event = getById(id);
-        if (event != null) {
-            try {
-                String query = "UPDATE event SET situation_date = ? WHERE id = ?";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setDate(1, (java.sql.Date) date);
-                statement.setInt(2, id);
-                statement.executeUpdate();
+    public Event update(Event event) {
+        try {
+            String query = "UPDATE event SET id_animal = ?, image = ?, situation_date = ?, description_event = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, event.getAnimal().getId());
+            statement.setString(2, event.getImage());
+            statement.setDate(3, Date.valueOf(event.getSituationDate()));
+            statement.setString(4, event.getDescriptionEvent());
+            statement.setInt(5, event.getId());
 
-                event.setSituationDate(date.toLocalDate());
-            } catch (Exception e) {
-                e.printStackTrace();
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Mise à jour de l'événement échouée");
             }
+            return event;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la mise à jour de l'événement : " + e.getMessage());
         }
-        return event;
+    }
+
+    public void delete(int id) {
+        try {
+            String query = "DELETE FROM event WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la suppression de l'événement : " + e.getMessage());
+        }
     }
 }

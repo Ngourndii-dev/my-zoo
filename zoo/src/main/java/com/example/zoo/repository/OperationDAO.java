@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,20 +19,48 @@ public class OperationDAO {
     private AnimalDAO animalDAO;
 
     public Operation insert(Operation operation) {
-        try {
-            String query = "INSERT INTO operation (price, id_animal, operation_date, operation_type) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+        if (operation == null) {
+            throw new IllegalArgumentException("L'opération ne peut pas être null");
+        }
+        if (operation.getAnimal() == null || operation.getAnimal().getId() <= 0) {
+            throw new IllegalArgumentException("L'animal associé à l'opération est invalide !");
+        }
+        if (operation.getOperationDate() == null) {
+            throw new IllegalArgumentException("La date de l'opération est obligatoire");
+        }
+        if (operation.getOperationType() == null || operation.getOperationType().trim().isEmpty()) {
+            throw new IllegalArgumentException("Le type d'opération est obligatoire");
+        }
+        if (operation.getPrice() < 0) {
+            throw new IllegalArgumentException("Le prix ne peut pas être négatif");
+        }
+
+        String query = "INSERT INTO operation (price, id_animal, operation_date, operation_type) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setFloat(1, operation.getPrice());
             statement.setInt(2, operation.getAnimal().getId());
-            statement.setDate(3, new Date(operation.getOperationDate().getTime()));
+            statement.setDate(3, operation.getOperationDate());
             statement.setString(4, operation.getOperationType());
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Insertion de l'opération échouée, aucune ligne affectée.");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    operation.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Échec de la récupération de l'ID généré.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de l'insertion de l'opération : " + e.getMessage(), e);
         }
         return operation;
     }
-
     public List<Operation> findAll() {
         List<Operation> operationList = new ArrayList<>();
         String query = "SELECT * FROM operation";

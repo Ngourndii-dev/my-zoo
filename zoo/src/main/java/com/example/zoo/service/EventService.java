@@ -1,11 +1,10 @@
 package com.example.zoo.service;
 
-import com.example.zoo.model.*;
-import com.example.zoo.repository.*;
+import com.example.zoo.model.Event;
+import com.example.zoo.repository.EventDAO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -24,7 +23,12 @@ public class EventService {
     public Event getById(int id) {
         return eventDAO.getById(id);
     }
-    public Event updateEvent(Event event){
-        return eventDAO.updateEvent(event.getId(), Date.valueOf(event.getSituationDate()));
+
+    public Event update(Event event) {
+        return eventDAO.update(event);
+    }
+
+    public void delete(int id) {
+        eventDAO.delete(id);
     }
 }

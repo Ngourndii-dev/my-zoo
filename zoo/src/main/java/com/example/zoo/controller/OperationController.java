@@ -1,8 +1,11 @@
 package com.example.zoo.controller;
 
+import com.example.zoo.model.Event;
 import com.example.zoo.model.Operation;
 import com.example.zoo.service.OperationService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,15 +20,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/operations")
 @AllArgsConstructor
 public class OperationController {
+    private static final Logger logger = LoggerFactory.getLogger(OperationController.class);
     @Autowired
     private final OperationService operationService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody Operation operation) {
-        operationService.insert(operation);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Operation> create(@RequestBody Operation operation) {
+        Operation  createOperation=operationService.insert(operation);
+        return new ResponseEntity<>(createOperation, HttpStatus.CREATED);
     }
-
     @GetMapping
     public ResponseEntity<List<Operation>> findAll() {
         List<Operation> operations = operationService.findAll();
@@ -36,12 +39,11 @@ public class OperationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getById(@PathVariable int id) {
+    public ResponseEntity<Operation> getById(@PathVariable int id) {
         Operation operation = operationService.getById(id);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", "1");
-        headers.add("Access-Control-Expose-Headers", "X-Total-Count");
-        return ResponseEntity.ok().headers(headers).body(Map.of("data",operation));
+        if (operation == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(operation);
     }
-
 }
