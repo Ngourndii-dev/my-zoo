@@ -22,11 +22,10 @@ const OrderForm: React.FC<OrderFormProps> = ({ animalId, onClose }) => {
       }
 
       const order: Order = {
-        id: 0,
-        order_date: orderDate,
+        orderDate,
         quantity,
-        id_client: idClient,
-        id_animal: animalId,
+        client: { id: idClient },
+        animal: { id: animalId },
       };
 
       try {
@@ -49,7 +48,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ animalId, onClose }) => {
         setError('An error occurred while placing the order.');
       }
     },
-    [orderDate, quantity, idClient, animalId, onClose]
+    [orderDate, quantity, idClient, animalId, status, onClose]
   );
 
   return (
@@ -58,7 +57,6 @@ const OrderForm: React.FC<OrderFormProps> = ({ animalId, onClose }) => {
         <h2 className="text-2xl font-bold text-white mb-4">Place Order</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Champ pour afficher l'ID de l'animal (lecture seule) */}
           <div>
             <label className="block text-sm font-medium text-gray-300">Animal ID</label>
             <input
@@ -90,7 +88,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ animalId, onClose }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300">Client ID</label>
+            <label className="block text-sm font-medium text-gray-300">Your ID</label>
             <input
               type="number"
               value={idClient}
