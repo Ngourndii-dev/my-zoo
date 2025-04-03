@@ -1,5 +1,6 @@
 package com.example.zoo.controller;
 
+import com.example.zoo.model.Client;
 import com.example.zoo.model.Review;
 import com.example.zoo.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,10 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody Review review) {
-        reviewService.insert(review);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Review> create(@RequestBody Review review) {
+        Review createdReview=reviewService.insert(review);
+        return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
     }
-
     @GetMapping
     public ResponseEntity<List<Review>> findAll() {
         List<Review> reviews = reviewService.findAll();

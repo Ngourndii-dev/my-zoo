@@ -3,6 +3,7 @@ import { Animal } from '@/types/animal';
 import { BadgeDollarSign, Home, Tag, Key, Venus, Palette, Search } from 'lucide-react';
 import React, { useEffect, useState, useCallback } from 'react';
 import OrderForm from './OrderForm';
+import ReviewForm from './ReviewForm'; // Ajout de l'import du ReviewForm
 
 const AnimalDetailItem: React.FC<{ icon: React.ReactNode; label: string; value: string | number }> = ({ icon, label, value }) => (
   <li className="flex items-center justify-between w-full p-3 border-b border-gray-200 last:border-b-0">
@@ -16,9 +17,14 @@ const AnimalDetailItem: React.FC<{ icon: React.ReactNode; label: string; value: 
 
 const AnimalCard: React.FC<{ animal: Animal }> = ({ animal }) => {
   const [showOrderForm, setShowOrderForm] = useState<boolean>(false);
+  const [showReviewForm, setShowReviewForm] = useState<boolean>(false); // État pour ReviewForm
 
   const handleOrderClick = () => {
     setShowOrderForm(true); 
+  };
+
+  const handleReviewClick = () => {
+    setShowReviewForm(true); // Fonction pour ouvrir ReviewForm
   };
 
   return (
@@ -43,15 +49,24 @@ const AnimalCard: React.FC<{ animal: Animal }> = ({ animal }) => {
             <AnimalDetailItem icon={<Venus />} label="Sex" value={animal.sex} />
             <AnimalDetailItem icon={<Palette />} label="Color" value={animal.color} />
           </ul>
-          <button
-            onClick={handleOrderClick}
-            className="mt-6 w-50 bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            Order Now
-          </button>
+          <div className="mt-6 flex gap-4"> {/* Ajout d'un conteneur flex pour les boutons */}
+            <button
+              onClick={handleOrderClick}
+              className="bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Order Now
+            </button>
+            <button
+              onClick={handleReviewClick}
+              className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            >
+              Add Review
+            </button>
+          </div>
         </div>
       </div>
       {showOrderForm && <OrderForm animalId={animal.id} onClose={() => setShowOrderForm(false)} />}
+      {showReviewForm && <ReviewForm animalId={animal.id} onClose={() => setShowReviewForm(false)} />} {/* Ajout du ReviewForm */}
     </div>
   );
 };

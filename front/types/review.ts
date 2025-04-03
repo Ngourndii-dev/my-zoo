@@ -1,8 +1,6 @@
 export interface Review {
-    id: number;
     author: string;
-    id_animal: number;
+    animal: { id: number };
     rating: number;
     comment: string;
-    status: "pending" | "available" | "unavailable";
   }

@@ -48,7 +48,7 @@ const OrderForm: React.FC<OrderFormProps> = ({ animalId, onClose }) => {
         setError('An error occurred while placing the order.');
       }
     },
-    [orderDate, quantity, idClient, animalId, status, onClose]
+    [orderDate, quantity, idClient, animalId,  onClose]
   );
 
   return (
